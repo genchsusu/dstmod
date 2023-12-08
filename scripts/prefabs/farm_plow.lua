@@ -325,10 +325,11 @@ local function item_fn()
 	inst.components.deployable:SetDeployMode(DEPLOYMODE.CUSTOM)
     inst.components.deployable.ondeploy = item_ondeploy
 
-	inst:AddComponent("finiteuses")
-    inst.components.finiteuses:SetOnFinished(inst.Remove)
-    inst.components.finiteuses:SetMaxUses(TUNING.FARM_PLOW_USES)
-    inst.components.finiteuses:SetUses(TUNING.FARM_PLOW_USES)
+    -- Gin 无限耐久
+	-- inst:AddComponent("finiteuses")
+    -- inst.components.finiteuses:SetOnFinished(inst.Remove)
+    -- inst.components.finiteuses:SetMaxUses(TUNING.FARM_PLOW_USES)
+    -- inst.components.finiteuses:SetUses(TUNING.FARM_PLOW_USES)
 
     MakeSmallBurnable(inst)
     MakeSmallPropagator(inst)
