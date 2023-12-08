@@ -67,6 +67,7 @@ local function OnIsDark(inst)
 end
 
 local function dig_up(inst, worker)
+    SpawnPrefab("farm_soil").Transform:SetPosition(inst.Transform:GetWorldPosition()) -- Gin 挖掘后重新生成土壤
     if inst.components.lootdropper ~= nil then
         inst.components.lootdropper:DropLoot()
     end
@@ -85,6 +86,7 @@ end
 
 local function onburnt(inst)
     SpawnPrefab("ash").Transform:SetPosition(inst.Transform:GetWorldPosition())
+    SpawnPrefab("farm_soil").Transform:SetPosition(inst.Transform:GetWorldPosition()) -- Gin 挖掘后重新生成土壤
     if inst.components.lootdropper ~= nil then
         inst.components.lootdropper:DropLoot()
     end
@@ -287,6 +289,7 @@ local function PlayStageAnim(inst, anim, pre_override)
 end
 
 local function OnPicked(inst, doer)
+    SpawnPrefab("farm_soil").Transform:SetPosition(inst.Transform:GetWorldPosition()) -- Gin 挖掘后重新生成土壤
     local x, y, z = inst.Transform:GetWorldPosition()
     if TheWorld.Map:GetTileAtPoint(x, y, z) == WORLD_TILES.FARMING_SOIL then
         local soil = SpawnPrefab("farm_soil")

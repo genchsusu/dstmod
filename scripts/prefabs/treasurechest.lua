@@ -4,7 +4,8 @@ local SUNKEN_PHYSICS_RADIUS = .45
 
 -- Gin vacuum_chest
 local VACUUM_RANGE = 20
-local VACUUM_PERIOD = 0.1
+local VACUUM_PERIOD = 0.01
+local BAN_LIST = {"bullkelp_beached", "spoiled_food", "mandrake", "cursed_monkey_token"}
 -- Gin vacuum_chest
 
 local function onopen(inst)
@@ -96,7 +97,8 @@ local function OnEnableHelper(inst, enabled)
             inst.helper:AddTag("NOCLICK")
             inst.helper:AddTag("placer")
             --minus or add 0.25 for every 5 range
-            local PLACER_SCALE = VACUUM_RANGE == 10 and 1.255 or VACUUM_RANGE == 15 and 1.55 or VACUUM_RANGE == 20 and 1.75
+            -- local PLACER_SCALE = VACUUM_RANGE == 10 and 1.255 or VACUUM_RANGE == 15 and 1.55 or VACUUM_RANGE == 20 and 1.75
+            local PLACER_SCALE = 1.0 + ((VACUUM_RANGE / 5) * 0.25)
             inst.helper.Transform:SetScale(PLACER_SCALE, PLACER_SCALE, PLACER_SCALE)
 
             inst.helper.AnimState:SetBank("firefighter_placement")
@@ -222,10 +224,9 @@ local function MakeChest(name, bank, build, indestructible, master_postinit, pre
         end
     
     	-- 禁拿清单
-        local itemLists = {"bullkelp_beached", "spoiled_food", "mandrake", "cursed_monkey_token"}
         local function itemExists(item)
-            for i = 0, #itemLists do
-                if itemLists[i] == item then
+            for i = 0, #BAN_LIST do
+                if BAN_LIST[i] == item then
                     return true
                 end
             end
