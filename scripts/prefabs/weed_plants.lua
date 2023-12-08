@@ -58,7 +58,7 @@ local function dig_up(inst, worker)
 		inst.components.lootdropper:DropLoot()
     end
 
-	call_for_reinforcements(inst, worker)
+	-- call_for_reinforcements(inst, worker)
 
 	local x, y, z = inst.Transform:GetWorldPosition()
 	if inst.components.growable ~= nil then
@@ -126,7 +126,7 @@ local function PlayStageAnim(inst, anim, custom_pre)
 end
 
 local function OnPickablePicked(inst, doer)
-	call_for_reinforcements(inst, doer)
+	-- call_for_reinforcements(inst, doer)
 
 	if inst.components.growable ~= nil then
 		inst.components.growable:SetStage(1)
