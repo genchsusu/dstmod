@@ -289,7 +289,6 @@ local function PlayStageAnim(inst, anim, pre_override)
 end
 
 local function OnPicked(inst, doer)
-    SpawnPrefab("farm_soil").Transform:SetPosition(inst.Transform:GetWorldPosition()) -- Gin 挖掘后重新生成土壤
     local x, y, z = inst.Transform:GetWorldPosition()
     if TheWorld.Map:GetTileAtPoint(x, y, z) == WORLD_TILES.FARMING_SOIL then
         local soil = SpawnPrefab("farm_soil")
@@ -305,6 +304,14 @@ local function OnPicked(inst, doer)
     end
 
     call_for_reinforcements(inst, doer)
+
+    -- Gin 在原来的位置再生植物
+    local plant_name = "farm_plant_" .. inst.plant_def.product
+    local new_plant = SpawnPrefab(plant_name)
+    if new_plant ~= nil then
+        new_plant.Transform:SetPosition(inst.Transform:GetWorldPosition())
+    end
+    -- SpawnPrefab("farm_soil").Transform:SetPosition(inst.Transform:GetWorldPosition()) -- Gin 挖掘后重新生成土壤
 end
 
 local function MakePickable(inst, enable, product)
@@ -551,7 +558,7 @@ local GROWTH_STAGES =
            end,
         fn = function(inst, stage, stage_data)
             -- MakeRotten(inst, true)
-            MakeRotten(inst, false) -- Gin 不会再次腐烂
+            MakeRotten(inst, false) -- Gin 不会腐烂
             MakePickable(inst, true)
             MakePlantedSeed(inst, false)
             inst.components.farmplanttendable:SetTendable(stage_data.tendable)
@@ -566,7 +573,8 @@ local GROWTH_STAGES =
             end
 
             inst:UpdateResearchStage(stage)
-            PlayStageAnim(inst, inst.is_oversized and "rot_oversized" or "rot")
+            -- PlayStageAnim(inst, inst.is_oversized and "rot_oversized" or "rot")
+            PlayStageAnim(inst, inst.is_oversized and "oversized" or "full")
         end,
         dig_fx = "dirt_puff",
         inspect_str = "ROTTEN",
