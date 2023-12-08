@@ -550,7 +550,8 @@ local GROWTH_STAGES =
             TheWorld:PushEvent("ms_oncroprotted", inst)
            end,
         fn = function(inst, stage, stage_data)
-            MakeRotten(inst, true)
+            -- MakeRotten(inst, true)
+            MakeRotten(inst, false) -- Gin 不会再次腐烂
             MakePickable(inst, true)
             MakePlantedSeed(inst, false)
             inst.components.farmplanttendable:SetTendable(stage_data.tendable)

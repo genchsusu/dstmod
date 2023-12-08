@@ -342,7 +342,24 @@ local function OnEntityReplicated(inst)
 end
 
 -- 加个自动吸鱼
+-- Gin 防卡顿
+local function isPlayerOrPowdermonkeyNearby(inst, range)
+    local x, y, z = inst.Transform:GetWorldPosition()
+    local entities = TheSim:FindEntities(x, y, z, range, nil, {"INLIMBO"})
+    for i, v in ipairs(entities) do
+        if v:IsValid() and (v:HasTag("player") or v.prefab == "powdermonkey") then
+            return true
+        end
+    end
+    return false
+end
+
 local function createFish(inst)
+    -- Gin 如果没有玩家或者powdermonkey在附近，则不进行召鱼
+    if not isPlayerOrPowdermonkeyNearby(inst, 20) then
+        return
+    end
+
     local schoolspawner = TheWorld.components.schoolspawner
     if schoolspawner == nil then
         return false, "NOWATERNEARBY"
