@@ -264,7 +264,7 @@ local function item_ondeploy(inst, pt, deployer)
     local obj = SpawnPrefab("farm_plow")
 	obj.Transform:SetPosition(cx, cy, cz)
 
-	inst.components.finiteuses:Use(1)
+	-- inst.components.finiteuses:Use(1) -- Gin 无限耐久
 	if inst:IsValid() then
 		obj.deploy_item_save_record = inst:GetSaveRecord()
 		inst:Remove()
