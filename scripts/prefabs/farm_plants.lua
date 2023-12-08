@@ -72,7 +72,7 @@ local function dig_up(inst, worker)
         inst.components.lootdropper:DropLoot()
     end
 
-    call_for_reinforcements(inst, worker)
+    -- call_for_reinforcements(inst, worker)
 
     if inst.components.growable ~= nil then
         local stage_data = inst.components.growable:GetCurrentStageData()
@@ -303,7 +303,7 @@ local function OnPicked(inst, doer)
         fruitfly.Transform:SetPosition(x, y, z)
     end
 
-    call_for_reinforcements(inst, doer)
+    -- call_for_reinforcements(inst, doer)
 
     -- Gin 在原来的位置再生植物
     local plant_name = "farm_plant_" .. inst.plant_def.product
