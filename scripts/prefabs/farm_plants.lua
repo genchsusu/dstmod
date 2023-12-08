@@ -305,6 +305,13 @@ local function OnPicked(inst, doer)
 
     -- call_for_reinforcements(inst, doer)
 
+    -- 删除周围一定范围内的所有 farm_soil_debris
+    local radius = 10
+    local soil_debris = TheSim:FindEntities(x, y, z, radius, {"farm_soil_debris"})
+    for i, debris in ipairs(soil_debris) do
+        debris:Remove()
+    end
+
     -- Gin 在原来的位置再生植物
     local plant_name = "farm_plant_" .. inst.plant_def.product
     local new_plant = SpawnPrefab(plant_name)
