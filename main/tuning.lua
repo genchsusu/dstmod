@@ -10,6 +10,8 @@ local wilson_attack = TUNING.SPEAR_DAMAGE
 local wilson_health = TUNING.WILSON_HEALTH
 
 local tuning = {
+    FARM_PLANT_LONG_LIFE_MULT = 99,
+
     STACK_SIZE_LARGEITEM = 999,
     STACK_SIZE_MEDITEM = 999,
     STACK_SIZE_SMALLITEM = 999,
