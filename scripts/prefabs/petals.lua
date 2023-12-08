@@ -73,7 +73,7 @@ local function fn()
     inst:AddComponent("inspectable")
     -- Gin  可以种植
     local function OnDeploy (inst, pt)
-        SpawnPrefab("flower").Transform:SetPosition(pt.x, pt.y, pt.z)
+        SpawnPrefab("flower_rose").Transform:SetPosition(pt.x, pt.y, pt.z)
         inst.components.stackable:Get():Remove()
     end
     inst:AddComponent("deployable")
