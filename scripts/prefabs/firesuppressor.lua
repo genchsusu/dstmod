@@ -105,7 +105,8 @@ local function TurnOn(inst, instant)
         inst.components.firedetector:Activate(randomizedStartTime)
         SetWarningLevelLight(inst, 0)
     end
-    inst.components.fueled:StartConsuming()
+    -- inst.components.fueled:StartConsuming()
+    inst.components.fueled:StopConsuming()
     inst.sg:GoToState(instant and "idle_on" or (inst.sg:HasStateTag("light") and "turn_on_light" or "turn_on"), isemergency == true--[[must not be nil]])
 end
 
@@ -273,12 +274,6 @@ local function OnEnableHelper(inst, enabled)
     end
 end
 
--- 自动充能
-local function chargefuel(inst)
-    inst.components.fueled.currentfuel = inst.components.fueled.maxfuel
-end
--- Gin
-
 --------------------------------------------------------------------------
 
 local function fn()
@@ -357,7 +352,6 @@ local function fn()
     inst:AddTag("birdblocker")
     inst:AddTag("antlion_sinkhole_blocker")
     inst:AddTag("lightningrod") -- 加个避雷针
-    inst:ListenForEvent("daycomplete", chargefuel) -- 一天结束时触发自动充能
     -- Gin
 
     inst:AddComponent("firedetector")

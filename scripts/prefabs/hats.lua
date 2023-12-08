@@ -2166,10 +2166,11 @@ local function MakeHat(name)
         inst.components.equippable:SetOnEquip(antlion_onequip)
         inst.components.equippable:SetOnUnequip(antlion_onunequip)
 
-        inst:AddComponent("finiteuses")
-        inst.components.finiteuses:SetOnFinished(antlion_onfinished)
-        inst.components.finiteuses:SetMaxUses(TUNING.ANTLIONHAT_USES)
-        inst.components.finiteuses:SetUses(TUNING.ANTLIONHAT_USES)
+        -- Gin 无限耐久
+        -- inst:AddComponent("finiteuses")
+        -- inst.components.finiteuses:SetOnFinished(antlion_onfinished)
+        -- inst.components.finiteuses:SetMaxUses(TUNING.ANTLIONHAT_USES)
+        -- inst.components.finiteuses:SetUses(TUNING.ANTLIONHAT_USES)
 
         inst:AddComponent("container")
         inst.components.container:WidgetSetup("antlionhat")
