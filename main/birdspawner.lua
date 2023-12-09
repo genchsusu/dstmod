@@ -1,5 +1,3 @@
-GLOBAL.setfenv(1, GLOBAL)
-
 AddComponentPostInit("birdspawner", function(self)
     local oldSpawnBird=self.SpawnBird
     self.SpawnBird = function(self,spawnpoint,ignorebait)
