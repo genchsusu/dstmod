@@ -14,3 +14,10 @@ modimport("main/infiniteuses")
 
 -- 船最大转向速度
 modimport("main/boatphysics")
+
+modimport("main/force_plant")
+modimport("main/perd")
+modimport("main/pond")
+
+modimport("main/fertilizer")
+-- modimport("main/walls")
