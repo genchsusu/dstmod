@@ -19,5 +19,18 @@ modimport("main/force_plant")
 modimport("main/perd")
 modimport("main/pond")
 
-modimport("main/fertilizer")
--- modimport("main/walls")
+modimport("main/soil_amender")
+
+-- 无敌城墙
+modimport("main/walls")
+
+-- -- 冬天继续生长
+-- modimport("main/override_standardcomponents")
+
+-- 强化灭火器
+modimport("main/firesuppressor")
+
+modimport("main/quick_work")
+
+-- 四季时蔬
+-- modimport("main/all_season_farm_plant")
