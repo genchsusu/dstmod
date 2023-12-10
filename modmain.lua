@@ -24,13 +24,16 @@ modimport("main/soil_amender")
 -- 无敌城墙
 modimport("main/walls")
 
--- -- 冬天继续生长
--- modimport("main/override_standardcomponents")
-
 -- 强化灭火器
 modimport("main/firesuppressor")
 
-modimport("main/quick_work")
 
 -- 四季时蔬
--- modimport("main/all_season_farm_plant")
+modimport("main/all_season_farm_plant")
+
+-- 冬天继续生长
+modimport("main/override_standardcomponents")
+
+
+-- 快速工作
+modimport("main/quick_work")

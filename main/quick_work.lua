@@ -8,11 +8,6 @@ local function ChangeAction(action, fn, name)
 end
 
 -- 快速采集
--- "archive_props", "atrium_gate", "bananabush", "berrybush", "bullkelp_plant", "cactus", "carrat", "carrot", "cave_banana_tree", "cave_fern", "compostingbin", "farm_plants", 
--- "flower", "flower_cave", "flower_evil", "flower_withered",
--- "grass", "lichen", "lightflier_flower", "mandrake_planted", "marsh_bush", "monkeytail", "moonbase", "mushrooms", "oceanfishableflotsam", "oceanvine", "reeds", "rock_avocado_bush", "sapling", "sculptingtable",
--- "stalker_berry", "stalker_bulb", "stalker_ferns", "statueglommer", "succulent_plant", "tallbirdnest", "telebase_gemsocket", "tumbleweed", "veggies", "weed_plants", "wintersfeastoven", "worm", "wormlight_plant"
-
 ChangeAction(GLOBAL.ACTIONS.PICK, "doshortaction")
 ChangeAction(GLOBAL.ACTIONS.PICK, function(inst, action)
     return action.target ~= nil and action.target.components.pickable ~= nil and "doshortaction" or nil
@@ -22,7 +17,7 @@ end, "shadowmaxwell")
 -- 修改砍树
 local function ModifyChopAction(prefab)
     AddPrefabPostInit(prefab, function(inst)
-        inst.components.tool:SetAction(ACTIONS.CHOP, 15)
+        inst.components.tool:SetAction(GLOBAL.ACTIONS.CHOP, 15)
     end)
 end
 
@@ -42,7 +37,7 @@ end
 -- 修改挖矿
 local function ModifyMineAction(prefab)
     AddPrefabPostInit(prefab, function(inst)
-        inst.components.tool:SetAction(ACTIONS.MINE, 15)
+        inst.components.tool:SetAction(GLOBAL.ACTIONS.MINE, 15)
     end)
 end
 
@@ -61,7 +56,7 @@ end
 -- 修改锤HAMMER
 local function ModifyHammerAction(prefab)
     AddPrefabPostInit(prefab, function(inst)
-        inst.components.tool:SetAction(ACTIONS.HAMMER, 15)
+        inst.components.tool:SetAction(GLOBAL.ACTIONS.HAMMER, 15)
     end)
 end
 

@@ -1,20 +1,14 @@
 local require = GLOBAL.require
 local PlantDefs = require("prefabs/farm_plant_defs").PLANT_DEFS
 local all_seasons = {autumn = true, winter = true, spring = true, summer = true}
+local State = {seed = true, sprout = true, small = true, med = true}
 
-local State = {
-    seed = true,
-    sprout = true,
-    small = true,
-    med = true
-}
+local function SetAllSeasonsGrowth(prefab)
+    prefab.good_seasons = all_seasons
+end
 
-local function ApplyPlantModifications(prefab)
+local function QuickGrow(prefab)
     AddPrefabPostInit(prefab, function(inst)
-        -- 设置植物的生长季节为全年
-        PlantDefs[prefab].good_seasons = all_seasons
-
-
         if inst.components.growable and inst.components.growable.stages then
             local stages = GLOBAL.deepcopy(inst.components.growable.stages)
             for k, v in pairs(stages) do
@@ -31,9 +25,9 @@ local function ApplyPlantModifications(prefab)
         end
     end)
 end
-for k, v in pairs(PlantDefs) do
+for _, v in pairs(PlantDefs) do
     if v.prefab then
-        ApplyPlantModifications(v.prefab)
+        SetAllSeasonsGrowth(v)
+        QuickGrow(v.prefab)
     end
 end
--- End
