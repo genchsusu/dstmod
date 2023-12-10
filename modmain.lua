@@ -17,3 +17,6 @@ modimport("custom/prefabs/all_season_farm_plant")   -- 四季时蔬
 modimport("custom/standardcomponents")              -- 冬天继续生长
 modimport("custom/prefabs/quick_work")              -- 快速工作
 modimport("custom/prefabs/log")                     -- 烧木头掉灰和木炭
+
+
+modimport("custom/prefabs/general_plants")          -- 修改常用植物

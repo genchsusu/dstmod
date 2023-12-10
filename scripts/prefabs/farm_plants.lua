@@ -296,8 +296,7 @@ local function OnPicked(inst, doer)
         soil:PushEvent("breaksoil")
     end
 
-    -- if not inst.is_oversized and inst:HasTag("farm_plant_killjoy") and math.random() < 0.05 then
-    if not inst.is_oversized and inst:HasTag("farm_plant_killjoy") and math.random() < 0.1 then -- Gin  5% -> 10% 生成果蝇的概率
+    if not inst.is_oversized and inst:HasTag("farm_plant_killjoy") and math.random() < 0.05 then
         -- local fruitfly = SpawnPrefab("fruitfly")
         local fruitfly = SpawnPrefab("friendlyfruitfly") -- Gin 友好的果蝇
         fruitfly.Transform:SetPosition(x, y, z)
@@ -318,7 +317,6 @@ local function OnPicked(inst, doer)
     if new_plant ~= nil then
         new_plant.Transform:SetPosition(inst.Transform:GetWorldPosition())
     end
-    -- SpawnPrefab("farm_soil").Transform:SetPosition(inst.Transform:GetWorldPosition()) -- Gin 挖掘后重新生成土壤
 end
 
 local function MakePickable(inst, enable, product)

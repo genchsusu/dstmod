@@ -1,4 +1,3 @@
-local require = GLOBAL.require
 local DST = GLOBAL.TheSim.GetGameID ~= nil and GLOBAL.TheSim:GetGameID() == "DST"
 
 local function DoNothing() end
