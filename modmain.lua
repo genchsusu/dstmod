@@ -1,39 +1,19 @@
 local modimport = modimport
 GLOBAL.setfenv(1, GLOBAL)
 
-modimport("main/tuning")
-
--- 给大树干加驱逐鸟的功能
-modimport("main/birdspawner")
-modimport("main/watertree_pillar")
-
--- 果蝇强化
-modimport("main/friendlyfruitfly")
--- 无限耐久
-modimport("main/infiniteuses")
-
--- 船最大转向速度
-modimport("main/boatphysics")
-
-modimport("main/force_plant")
-modimport("main/perd")
-modimport("main/pond")
-
-modimport("main/soil_amender")
-
--- 无敌城墙
-modimport("main/walls")
-
--- 强化灭火器
-modimport("main/firesuppressor")
-
-
--- 四季时蔬
-modimport("main/all_season_farm_plant")
-
--- 冬天继续生长
-modimport("main/override_standardcomponents")
-
-
--- 快速工作
-modimport("main/quick_work")
+modimport("custom/tuning")
+modimport("custom/components/birdspawner")          -- 给大树干加驱逐鸟的功能
+modimport("custom/prefabs/watertree_pillar")        -- 给大树干加驱逐鸟的功能
+modimport("custom/prefabs/friendlyfruitfly")        -- 果蝇强化
+modimport("custom/prefabs/infiniteuses")            -- 无限耐久
+modimport("custom/components/boatphysics")          -- 船最大转向速度
+modimport("custom/prefabs/force_plant")             -- 强制种植无法种植的植物
+modimport("custom/prefabs/perd")                    -- 鸡生蛋
+modimport("custom/prefabs/pond")                    -- 池塘长曼德拉草
+modimport("custom/prefabs/soil_amender")            -- soil_amender可堆叠
+modimport("custom/prefabs/walls")                   -- 无敌城墙
+modimport("custom/prefabs/firesuppressor")          -- 强化灭火器
+modimport("custom/prefabs/all_season_farm_plant")   -- 四季时蔬
+modimport("custom/standardcomponents")              -- 冬天继续生长
+modimport("custom/prefabs/quick_work")              -- 快速工作
+modimport("custom/prefabs/log")                     -- 烧木头掉灰和木炭
