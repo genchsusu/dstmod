@@ -20,3 +20,8 @@ modimport("custom/prefabs/log")                     -- 烧木头掉灰和木炭
 
 
 modimport("custom/prefabs/general_plants")          -- 修改常用植物
+modimport("custom/prefabs/beebox")                  -- 修改蜂箱
+modimport("custom/prefabs/boat")                    -- 修改船
+modimport("custom/prefabs/rocks")                   -- 修改矿物
+
+

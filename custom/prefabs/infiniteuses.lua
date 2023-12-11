@@ -235,6 +235,7 @@ local DURABILITIES = {
         "oar",                          -- 船桨
         "oar_driftwood",                -- 船桨
         "mastupgrade_lamp",             -- 
+        "mast_malbatross",
     },
     FARMING_DURABILITY = {
         "farm_hoe",                     -- 园艺锄

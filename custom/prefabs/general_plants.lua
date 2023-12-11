@@ -53,7 +53,7 @@ AddPrefabPostInit("reeds", function(inst)
         inst:Remove()
     end
     inst:AddComponent("workable")
-    inst.components.workable:SetWorkAction(ACTIONS.DIG)
+    inst.components.workable:SetWorkAction(GLOBAL.ACTIONS.DIG)
     inst.components.workable:SetOnFinishCallback(dig_up)
     inst.components.workable:SetWorkLeft(1)
     inst:AddComponent("lootdropper")
