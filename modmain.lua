@@ -17,11 +17,15 @@ modimport("custom/prefabs/all_season_farm_plant")   -- 四季时蔬
 modimport("custom/standardcomponents")              -- 冬天继续生长
 modimport("custom/prefabs/quick_work")              -- 快速工作
 modimport("custom/prefabs/log")                     -- 烧木头掉灰和木炭
-
-
 modimport("custom/prefabs/general_plants")          -- 修改常用植物
 modimport("custom/prefabs/beebox")                  -- 修改蜂箱
 modimport("custom/prefabs/boat")                    -- 修改船
 modimport("custom/prefabs/rocks")                   -- 修改矿物
+modimport("custom/prefabs/rock_avocado_bush")       -- 修改rock_avocado_bush
 
+modimport("custom/prefabs/bananabush")              -- 修改香蕉树
+modimport("custom/prefabs/evergreens")              -- 修改evergreens
+-- modimport("custom/prefabs/")       -- 修改
+-- modimport("custom/prefabs/")       -- 修改
+-- modimport("custom/prefabs/")       -- 修改
 
