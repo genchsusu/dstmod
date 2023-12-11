@@ -24,7 +24,7 @@ modimport("custom/prefabs/rocks")                   -- 修改矿物
 modimport("custom/prefabs/rock_avocado_bush")       -- 修改rock_avocado_bush
 
 modimport("custom/prefabs/bananabush")              -- 修改香蕉树
-modimport("custom/prefabs/evergreens")              -- 修改evergreens
+-- modimport("custom/prefabs/evergreens")              -- 修改evergreens
 -- modimport("custom/prefabs/")       -- 修改
 -- modimport("custom/prefabs/")       -- 修改
 -- modimport("custom/prefabs/")       -- 修改

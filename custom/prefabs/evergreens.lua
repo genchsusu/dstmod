@@ -10,7 +10,7 @@ local function ModifyTreeLoot(inst)
     end)
 
     if inst.components.lootdropper then
-        inst.components.lootdropper:SetLoot({"log", "log", "log", "log", "pinecone", "pinecone"})
+        inst.components.lootdropper:SetLoot({"log", "log", "log", "log", "log", "log", "log", "log", "log", "log", "pinecone", "pinecone"})
     end
 end
 
@@ -19,6 +19,6 @@ local trees = {
     "evergreen_sparse", "evergreen_sparse_short", "evergreen_sparse_normal", "evergreen_sparse_tall"
 }
 
-for i, tree in ipairs(trees) do
+for _, tree in ipairs(trees) do
     AddPrefabPostInit(tree, ModifyTreeLoot)
 end
