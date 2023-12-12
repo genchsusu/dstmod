@@ -99,23 +99,23 @@ params.shadowchester =
     widget =
     {
         slotpos = {},
-        animbank = "ui_chester_shadow_3x4",
-        animbuild = "ui_chester_shadow_3x4",
-        pos = Vector3(0, 220, 0),
+        animbank = "ui_chest_8x20",
+        animbuild = "ui_chest_8x20",
+        pos = Vector3((19 + 1) * -1.4 , 210, 0),
         side_align_tip = 160,
     },
-    type = "chest",
+type = "chest",
 }
 
-for y = 2.5, -0.5, -1 do
-    for x = 0, 2 do
-        table.insert(params.shadowchester.widget.slotpos, Vector3(75 * x - 75 * 2 + 75, 75 * y - 75 * 2 + 75, 0))
+for y = 7, 0, -1 do
+    for x = 0, 19 do
+        table.insert(params.shadowchester.widget.slotpos, Vector3(80 * x - 80 * 2 - 602, 80 * y - 80 * 2 - 120, 0))
     end
 end
 
 params.shadow_container = deepcopy(params.shadowchester)
-params.shadow_container.widget.animbank = "ui_portal_shadow_3x4"
-params.shadow_container.widget.animbuild = "ui_portal_shadow_3x4"
+params.shadow_container.widget.animbank = "ui_storeroom_8x20"
+params.shadow_container.widget.animbuild = "ui_storeroom_8x20"
 params.shadow_container.widget.animloop = true
 
 function params.shadow_container.itemtestfn(container, item, slot)
@@ -635,17 +635,17 @@ params.icebox =
     widget =
     {
         slotpos = {},
-        animbank = "ui_chest_3x3",
-        animbuild = "ui_chest_3x3",
-        pos = Vector3(0, 200, 0),
+        animbank = "ui_chest_5x16",
+        animbuild = "ui_chest_5x16",
+        pos = Vector3(0, 215, 0),
         side_align_tip = 160,
     },
     type = "chest",
 }
 
-for y = 2, 0, -1 do
-    for x = 0, 2 do
-        table.insert(params.icebox.widget.slotpos, Vector3(80 * x - 80 * 2 + 80, 80 * y - 80 * 2 + 80, 0))
+for y = 3.5, -0.5, -1 do
+    for x = -0, 15 do
+        table.insert(params.icebox.widget.slotpos, Vector3(80 * x - 80 * 8.5 + 80, 80 * y - 100 * 2 + 80,0))
     end
 end
 
@@ -782,17 +782,17 @@ params.treasurechest =
     widget =
     {
         slotpos = {},
-        animbank = "ui_chest_3x3",
-        animbuild = "ui_chest_3x3",
-        pos = Vector3(0, 200, 0),
+        animbank = "ui_chest_5x16",
+        animbuild = "ui_chest_5x16",
+        pos = Vector3(0, 215, 0),
         side_align_tip = 160,
     },
     type = "chest",
 }
 
-for y = 2, 0, -1 do
-    for x = 0, 2 do
-        table.insert(params.treasurechest.widget.slotpos, Vector3(80 * x - 80 * 2 + 80, 80 * y - 80 * 2 + 80, 0))
+for y = 3.5, -0.5, -1 do
+    for x = -0, 15 do
+        table.insert(params.treasurechest.widget.slotpos, Vector3(80 * x - 80 * 8.5 + 80, 80 * y - 100 * 2 + 80,0))
     end
 end
 
@@ -802,8 +802,8 @@ params.terrariumchest = params.treasurechest
 params.sunkenchest = params.treasurechest
 
 params.quagmire_safe = deepcopy(params.treasurechest)
-params.quagmire_safe.widget.animbank = "quagmire_ui_chest_3x3"
-params.quagmire_safe.widget.animbuild = "quagmire_ui_chest_3x3"
+params.quagmire_safe.widget.animbank = "ui_chest_5x16"
+params.quagmire_safe.widget.animbuild = "ui_chest_5x16"
 
 --------------------------------------------------------------------------
 --[[ dragonflychest ]]
@@ -848,17 +848,17 @@ params.fish_box =
     widget =
     {
         slotpos = {},
-        animbank = "ui_fish_box_5x4",
-        animbuild = "ui_fish_box_5x4",
-        pos = Vector3(0, 220, 0),
+        animbank = "ui_chest_5x16",
+        animbuild = "ui_chest_5x16",
+        pos = Vector3(0, 215, 0),
         side_align_tip = 160,
     },
     type = "chest",
 }
 
-for y = 2.5, -0.5, -1 do
-    for x = -1, 3 do
-        table.insert(params.fish_box.widget.slotpos, Vector3(75 * x - 75 * 2 + 75, 75 * y - 75 * 2 + 75, 0))
+for y = 3.5, -0.5, -1 do
+    for x = -0, 15 do
+        table.insert(params.fish_box.widget.slotpos, Vector3(80 * x - 80 * 8.5 + 80, 80 * y - 100 * 2 + 80,0))
     end
 end
 
@@ -1048,17 +1048,17 @@ params.tacklecontainer =
     widget =
     {
         slotpos = {},
-        animbank = "ui_tacklecontainer_3x2",
-        animbuild = "ui_tacklecontainer_3x2",
-        pos = Vector3(0, 200, 0),
+        animbank = "ui_chest_5x16",
+        animbuild = "ui_chest_5x16",
+        pos = Vector3(0, 215, 0),
         side_align_tip = 160,
     },
     type = "chest",
 }
 
-for y = 1, 0, -1 do
-    for x = 0, 2 do
-        table.insert(params.tacklecontainer.widget.slotpos, Vector3(80 * x - 80 * 2 + 80, 80 * y - 80 * 2 + 120, 0))
+for y = 3.5, -0.5, -1 do
+    for x = -0, 15 do
+        table.insert(params.tacklecontainer.widget.slotpos, Vector3(80 * x - 80 * 8.5 + 80, 80 * y - 100 * 2 + 80,0))
     end
 end
 
@@ -1076,17 +1076,17 @@ params.supertacklecontainer =
     widget =
     {
         slotpos = {},
-        animbank = "ui_tacklecontainer_3x5",
-        animbuild = "ui_tacklecontainer_3x5",
-        pos = Vector3(0, 280, 0),
+        animbank = "ui_chest_5x16",
+        animbuild = "ui_chest_5x16",
+        pos = Vector3(0, 215, 0),
         side_align_tip = 160,
     },
     type = "chest",
 }
 
-for y = 1, -3, -1 do
-    for x = 0, 2 do
-        table.insert(params.supertacklecontainer.widget.slotpos, Vector3(80 * x - 80 * 2 + 80, 80 * y - 45, 0))
+for y = 3.5, -0.5, -1 do
+    for x = -0, 15 do
+        table.insert(params.supertacklecontainer.widget.slotpos, Vector3(80 * x - 80 * 8.5 + 80, 80 * y - 100 * 2 + 80,0))
     end
 end
 
@@ -1124,18 +1124,18 @@ params.seedpouch =
     widget =
     {
         slotpos = {},
-        animbank = "ui_krampusbag_2x8",
-        animbuild = "ui_krampusbag_2x8",
-        pos = Vector3(-5, -130, 0),
+        animbank = "ui_chest_5x16",
+        animbuild = "ui_chest_5x16",
+        pos = Vector3(0, 215, 0),
+        side_align_tip = 160,
     },
-    issidewidget = true,
-    type = "pack",
-    openlimit = 1,
+    type = "chest",
 }
 
-for y = 0, 6 do
-    table.insert(params.seedpouch.widget.slotpos, Vector3(-162, -75 * y + 240, 0))
-    table.insert(params.seedpouch.widget.slotpos, Vector3(-162 + 75, -75 * y + 240, 0))
+for y = 3.5, -0.5, -1 do
+    for x = -0, 15 do
+        table.insert(params.seedpouch.widget.slotpos, Vector3(80 * x - 80 * 8.5 + 80, 80 * y - 100 * 2 + 80,0))
+    end
 end
 
 function params.seedpouch.itemtestfn(container, item, slot)

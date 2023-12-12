@@ -94,61 +94,33 @@ end
 
 --Deprecated; keep definition for dragonflychest, minotaurchest, mods,
 --and also for legacy save data
--- Gin 原版的
--- params.shadowchester =
--- {
---     widget =
---     {
---         slotpos = {},
---         animbank = "ui_chester_shadow_3x4",
---         animbuild = "ui_chester_shadow_3x4",
---         pos = Vector3(0, 220, 0),
---         side_align_tip = 160,
---     },
---     type = "chest",
--- }
-
--- for y = 2.5, -0.5, -1 do
---     for x = 0, 2 do
---         table.insert(params.shadowchester.widget.slotpos, Vector3(75 * x - 75 * 2 + 75, 75 * y - 75 * 2 + 75, 0))
---     end
--- end
-
--- params.shadow_container = deepcopy(params.shadowchester)
--- params.shadow_container.widget.animbank = "ui_portal_shadow_3x4"
--- params.shadow_container.widget.animbuild = "ui_portal_shadow_3x4"
--- params.shadow_container.widget.animloop = true
-
--- Gin 暗影箱子
 params.shadowchester =
 {
     widget =
     {
         slotpos = {},
-        animbank = "ui_chest_8x20",
-        animbuild = "ui_chest_8x20",
-        pos = Vector3((19 + 1) * -1.4 , 210, 0),
+        animbank = "ui_chester_shadow_3x4",
+        animbuild = "ui_chester_shadow_3x4",
+        pos = Vector3(0, 220, 0),
         side_align_tip = 160,
     },
-type = "chest",
+    type = "chest",
 }
 
-for y = 7, 0, -1 do
-    for x = 0, 19 do
-        table.insert(params.shadowchester.widget.slotpos, Vector3(80 * x - 80 * 2 - 602, 80 * y - 80 * 2 - 120, 0))
+for y = 2.5, -0.5, -1 do
+    for x = 0, 2 do
+        table.insert(params.shadowchester.widget.slotpos, Vector3(75 * x - 75 * 2 + 75, 75 * y - 75 * 2 + 75, 0))
     end
 end
 
 params.shadow_container = deepcopy(params.shadowchester)
-params.shadow_container.widget.animbank = "ui_storeroom_8x20"
-params.shadow_container.widget.animbuild = "ui_storeroom_8x20"
+params.shadow_container.widget.animbank = "ui_portal_shadow_3x4"
+params.shadow_container.widget.animbuild = "ui_portal_shadow_3x4"
 params.shadow_container.widget.animloop = true
--- Gin
+
 function params.shadow_container.itemtestfn(container, item, slot)
     return not item:HasTag("irreplaceable")
 end
-
--- Gin 160 Slots Big dragonflychest
 
 --------------------------------------------------------------------------
 --[[ hutch ]]
@@ -658,46 +630,24 @@ end
 --[[ icebox ]]
 --------------------------------------------------------------------------
 
--- Gin 原版的
--- params.icebox =
--- {
---     widget =
---     {
---         slotpos = {},
---         animbank = "ui_chest_3x3",
---         animbuild = "ui_chest_3x3",
---         pos = Vector3(0, 200, 0),
---         side_align_tip = 160,
---     },
---     type = "chest",
--- }
-
--- for y = 2, 0, -1 do
---     for x = 0, 2 do
---         table.insert(params.icebox.widget.slotpos, Vector3(80 * x - 80 * 2 + 80, 80 * y - 80 * 2 + 80, 0))
---     end
--- end
-
--- Gin 80_slots
 params.icebox =
 {
     widget =
     {
         slotpos = {},
-        animbank = "ui_chest_5x16",
-        animbuild = "ui_chest_5x16",
-        pos = Vector3(0, 215, 0),
+        animbank = "ui_chest_3x3",
+        animbuild = "ui_chest_3x3",
+        pos = Vector3(0, 200, 0),
         side_align_tip = 160,
     },
     type = "chest",
 }
 
-for y = 3.5, -0.5, -1 do
-    for x = -0, 15 do
-        table.insert(params.icebox.widget.slotpos, Vector3(80 * x - 80 * 8.5 + 80, 80 * y - 100 * 2 + 80,0))
+for y = 2, 0, -1 do
+    for x = 0, 2 do
+        table.insert(params.icebox.widget.slotpos, Vector3(80 * x - 80 * 2 + 80, 80 * y - 80 * 2 + 80, 0))
     end
 end
--- Gin 80_slots
 
 function params.icebox.itemtestfn(container, item, slot)
     if item:HasTag("icebox_valid") then
@@ -827,57 +777,33 @@ end
 --[[ treasurechest ]]
 --------------------------------------------------------------------------
 
--- Gin 原版的
--- params.treasurechest =
--- {
---     widget =
---     {
---         slotpos = {},
---         animbank = "ui_chest_3x3",
---         animbuild = "ui_chest_3x3",
---         pos = Vector3(0, 200, 0),
---         side_align_tip = 160,
---     },
---     type = "chest",
--- }
-
--- for y = 2, 0, -1 do
---     for x = 0, 2 do
---         table.insert(params.treasurechest.widget.slotpos, Vector3(80 * x - 80 * 2 + 80, 80 * y - 80 * 2 + 80, 0))
---     end
--- end
-
--- Gin 80_slots
 params.treasurechest =
 {
     widget =
     {
         slotpos = {},
-        animbank = "ui_chest_5x16",
-        animbuild = "ui_chest_5x16",
-        pos = Vector3(0, 215, 0),
+        animbank = "ui_chest_3x3",
+        animbuild = "ui_chest_3x3",
+        pos = Vector3(0, 200, 0),
         side_align_tip = 160,
     },
     type = "chest",
 }
 
-for y = 3.5, -0.5, -1 do
-    for x = -0, 15 do
-        table.insert(params.treasurechest.widget.slotpos, Vector3(80 * x - 80 * 8.5 + 80, 80 * y - 100 * 2 + 80,0))
+for y = 2, 0, -1 do
+    for x = 0, 2 do
+        table.insert(params.treasurechest.widget.slotpos, Vector3(80 * x - 80 * 2 + 80, 80 * y - 80 * 2 + 80, 0))
     end
 end
--- Gin 80_slots
+
 params.pandoraschest = params.treasurechest
 params.skullchest = params.treasurechest
 params.terrariumchest = params.treasurechest
 params.sunkenchest = params.treasurechest
 
 params.quagmire_safe = deepcopy(params.treasurechest)
--- Gin Modify the widget
--- params.quagmire_safe.widget.animbank = "quagmire_ui_chest_3x3"
--- params.quagmire_safe.widget.animbuild = "quagmire_ui_chest_3x3"
-params.quagmire_safe.widget.animbank = "ui_chest_5x16"
-params.quagmire_safe.widget.animbuild = "ui_chest_5x16"
+params.quagmire_safe.widget.animbank = "quagmire_ui_chest_3x3"
+params.quagmire_safe.widget.animbuild = "quagmire_ui_chest_3x3"
 
 --------------------------------------------------------------------------
 --[[ dragonflychest ]]
@@ -917,46 +843,24 @@ end
 --[[ fish_box ]]
 --------------------------------------------------------------------------
 
--- Gin 原版的
--- params.fish_box =
--- {
---     widget =
---     {
---         slotpos = {},
---         animbank = "ui_fish_box_5x4",
---         animbuild = "ui_fish_box_5x4",
---         pos = Vector3(0, 220, 0),
---         side_align_tip = 160,
---     },
---     type = "chest",
--- }
-
--- for y = 2.5, -0.5, -1 do
---     for x = -1, 3 do
---         table.insert(params.fish_box.widget.slotpos, Vector3(75 * x - 75 * 2 + 75, 75 * y - 75 * 2 + 75, 0))
---     end
--- end
-
--- Gin 80_slots
 params.fish_box =
 {
     widget =
     {
         slotpos = {},
-        animbank = "ui_chest_5x16",
-        animbuild = "ui_chest_5x16",
-        pos = Vector3(0, 215, 0),
+        animbank = "ui_fish_box_5x4",
+        animbuild = "ui_fish_box_5x4",
+        pos = Vector3(0, 220, 0),
         side_align_tip = 160,
     },
     type = "chest",
 }
 
-for y = 3.5, -0.5, -1 do
-    for x = -0, 15 do
-        table.insert(params.fish_box.widget.slotpos, Vector3(80 * x - 80 * 8.5 + 80, 80 * y - 100 * 2 + 80,0))
+for y = 2.5, -0.5, -1 do
+    for x = -1, 3 do
+        table.insert(params.fish_box.widget.slotpos, Vector3(75 * x - 75 * 2 + 75, 75 * y - 75 * 2 + 75, 0))
     end
 end
--- Gin 80_slots
 
 function params.fish_box.itemtestfn(container, item, slot)
     return item:HasTag("smalloceancreature")
@@ -1139,46 +1043,24 @@ end
 --[[ tacklecontainer ]]
 --------------------------------------------------------------------------
 
--- Gin 原版的
--- params.tacklecontainer =
--- {
---     widget =
---     {
---         slotpos = {},
---         animbank = "ui_tacklecontainer_3x2",
---         animbuild = "ui_tacklecontainer_3x2",
---         pos = Vector3(0, 200, 0),
---         side_align_tip = 160,
---     },
---     type = "chest",
--- }
-
--- for y = 1, 0, -1 do
---     for x = 0, 2 do
---         table.insert(params.tacklecontainer.widget.slotpos, Vector3(80 * x - 80 * 2 + 80, 80 * y - 80 * 2 + 120, 0))
---     end
--- end
-
--- Gin 80_slots
 params.tacklecontainer =
 {
     widget =
     {
         slotpos = {},
-        animbank = "ui_chest_5x16",
-        animbuild = "ui_chest_5x16",
-        pos = Vector3(0, 215, 0),
+        animbank = "ui_tacklecontainer_3x2",
+        animbuild = "ui_tacklecontainer_3x2",
+        pos = Vector3(0, 200, 0),
         side_align_tip = 160,
     },
     type = "chest",
 }
 
-for y = 3.5, -0.5, -1 do
-    for x = -0, 15 do
-        table.insert(params.tacklecontainer.widget.slotpos, Vector3(80 * x - 80 * 8.5 + 80, 80 * y - 100 * 2 + 80,0))
+for y = 1, 0, -1 do
+    for x = 0, 2 do
+        table.insert(params.tacklecontainer.widget.slotpos, Vector3(80 * x - 80 * 2 + 80, 80 * y - 80 * 2 + 120, 0))
     end
 end
--- Gin 80_slots
 
 function params.tacklecontainer.itemtestfn(container, item, slot)
 	return item:HasTag("oceanfishing_bobber") or item:HasTag("oceanfishing_lure")
@@ -1189,46 +1071,24 @@ end
 --[[ supertacklecontainer ]]
 --------------------------------------------------------------------------
 
--- Gin 原版的
--- params.supertacklecontainer =
--- {
---     widget =
---     {
---         slotpos = {},
---         animbank = "ui_tacklecontainer_3x5",
---         animbuild = "ui_tacklecontainer_3x5",
---         pos = Vector3(0, 280, 0),
---         side_align_tip = 160,
---     },
---     type = "chest",
--- }
-
--- for y = 1, -3, -1 do
---     for x = 0, 2 do
---         table.insert(params.supertacklecontainer.widget.slotpos, Vector3(80 * x - 80 * 2 + 80, 80 * y - 45, 0))
---     end
--- end
-
--- Gin 80_slots
 params.supertacklecontainer =
 {
     widget =
     {
         slotpos = {},
-        animbank = "ui_chest_5x16",
-        animbuild = "ui_chest_5x16",
-        pos = Vector3(0, 215, 0),
+        animbank = "ui_tacklecontainer_3x5",
+        animbuild = "ui_tacklecontainer_3x5",
+        pos = Vector3(0, 280, 0),
         side_align_tip = 160,
     },
     type = "chest",
 }
 
-for y = 3.5, -0.5, -1 do
-    for x = -0, 15 do
-        table.insert(params.supertacklecontainer.widget.slotpos, Vector3(80 * x - 80 * 8.5 + 80, 80 * y - 100 * 2 + 80,0))
+for y = 1, -3, -1 do
+    for x = 0, 2 do
+        table.insert(params.supertacklecontainer.widget.slotpos, Vector3(80 * x - 80 * 2 + 80, 80 * y - 45, 0))
     end
 end
--- Gin 80_slots
 
 params.supertacklecontainer.itemtestfn = params.tacklecontainer.itemtestfn
 
@@ -1259,45 +1119,24 @@ end
 --[[ seedpouch ]]
 --------------------------------------------------------------------------
 
--- Gin 原版的
--- params.seedpouch =
--- {
---     widget =
---     {
---         slotpos = {},
---         animbank = "ui_krampusbag_2x8",
---         animbuild = "ui_krampusbag_2x8",
---         pos = Vector3(-5, -130, 0),
---     },
---     issidewidget = true,
---     type = "pack",
---     openlimit = 1,
--- }
-
--- for y = 0, 6 do
---     table.insert(params.seedpouch.widget.slotpos, Vector3(-162, -75 * y + 240, 0))
---     table.insert(params.seedpouch.widget.slotpos, Vector3(-162 + 75, -75 * y + 240, 0))
--- end
--- Gin 80_slots
 params.seedpouch =
 {
     widget =
     {
         slotpos = {},
-        animbank = "ui_chest_5x16",
-        animbuild = "ui_chest_5x16",
-        pos = Vector3(0, 215, 0),
-        side_align_tip = 160,
+        animbank = "ui_krampusbag_2x8",
+        animbuild = "ui_krampusbag_2x8",
+        pos = Vector3(-5, -130, 0),
     },
-    type = "chest",
+    issidewidget = true,
+    type = "pack",
+    openlimit = 1,
 }
 
-for y = 3.5, -0.5, -1 do
-    for x = -0, 15 do
-        table.insert(params.seedpouch.widget.slotpos, Vector3(80 * x - 80 * 8.5 + 80, 80 * y - 100 * 2 + 80,0))
-    end
+for y = 0, 6 do
+    table.insert(params.seedpouch.widget.slotpos, Vector3(-162, -75 * y + 240, 0))
+    table.insert(params.seedpouch.widget.slotpos, Vector3(-162 + 75, -75 * y + 240, 0))
 end
--- Gin 80_slots
 
 function params.seedpouch.itemtestfn(container, item, slot)
     return item.prefab == "seeds" or string.match(item.prefab, "_seeds") or item:HasTag("treeseed")
