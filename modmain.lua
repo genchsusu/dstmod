@@ -1,5 +1,9 @@
-local modimport = modimport
-GLOBAL.setfenv(1, GLOBAL)
+GLOBAL.setmetatable(env,{__index=function(t,k) return GLOBAL.rawget(GLOBAL,k) end})
+
+Assets = {
+    Asset("ANIM", "anim/ui_chest_5x16.zip"),
+    Asset("ANIM", "anim/ui_chest_8x20.zip"),
+}
 
 modimport("custom/tuning")
 modimport("custom/components/birdspawner")          -- 给大树干加驱逐鸟的功能
@@ -24,8 +28,12 @@ modimport("custom/prefabs/rocks")                   -- 修改矿物
 modimport("custom/prefabs/rock_avocado_bush")       -- 修改rock_avocado_bush
 
 modimport("custom/prefabs/bananabush")              -- 修改香蕉树
-modimport("custom/prefabs/evergreens")              -- 修改evergreens
--- modimport("custom/prefabs/")       -- 修改
+-- modimport("custom/prefabs/evergreens")              -- 修改evergreens
+modimport("custom/containers")                      -- 修改箱子大小
+modimport("custom/prefabs/all_backpacks")           -- 修改背包
+modimport("custom/prefabs/all_chests")              -- 修改箱子
+
+
 -- modimport("custom/prefabs/")       -- 修改
 -- modimport("custom/prefabs/")       -- 修改
 

@@ -1,10 +1,10 @@
 local function ModifyTreeLoot(inst)
-    print("Modifying tree loot for: " .. inst.prefab)
+    -- print("Modifying tree loot for: " .. inst.prefab)
 
     local oldOnBurntFn = inst.components.burnable.onburnt
     inst.components.burnable:SetOnBurntFn(function(inst)
         oldOnBurntFn(inst)
-        print("Burnt: " .. inst.prefab)
+        -- print("Burnt: " .. inst.prefab)
 
         local charcoal_number = 10
         for i = 1, charcoal_number do
@@ -13,7 +13,7 @@ local function ModifyTreeLoot(inst)
     end)
 
     if inst.components.lootdropper then
-        print("Setting loot for: " .. inst.prefab)
+        -- print("Setting loot for: " .. inst.prefab)
         inst.components.lootdropper:SetLoot({"log", "log", "log", "log", "log", "log", "log", "log", "log", "log", "pinecone", "pinecone"})
     end
 end

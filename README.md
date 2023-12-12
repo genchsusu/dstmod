@@ -31,4 +31,4 @@ inst:AddTag("drive_bird_scarecrow")
 
 船只最大转向速度
 
-
+TODO 魔术箱子仍然没有动画

@@ -83,21 +83,18 @@ local function OnTerraform(inst, pt, old_tile_type, old_tile_turf_prefab)
     local cx, cy, cz = TheWorld.Map:GetTileCenterPoint(pt:Get())
     local TILE_EXTENTS = TILE_SCALE * 0.9
     local spawned_positions = {}
-    for i = 1, math.random(TUNING.FARM_PLOW_DRILLING_DEBRIS_MIN, TUNING.FARM_PLOW_DRILLING_DEBRIS_MAX) do
-        local x = cx + (math.random() * TILE_EXTENTS) - TILE_EXTENTS/2
-        local z = cz + (math.random() * TILE_EXTENTS) - TILE_EXTENTS/2
-        if not IsPosWithin(x, z, spawned_positions, 1) then
-            table.insert(spawned_positions, {x = x, z = z})
-			TheWorld.Map:CollapseSoilAtPoint(x, cy, z)
-            SpawnPrefab("farm_soil_debris").Transform:SetPosition(x, cy, z)
-        end
-    end
 
-	SpawnPrefab("dirt_puff").Transform:SetPosition(cx + math.random() + 1, cy, cz + math.random() + 1)
-	SpawnPrefab("dirt_puff").Transform:SetPosition(cx - math.random() - 1, cy, cz + math.random() + 1)
-	SpawnPrefab("dirt_puff").Transform:SetPosition(cx + math.random() + 1, cy, cz - math.random() - 1)
-	SpawnPrefab("dirt_puff").Transform:SetPosition(cx - math.random() - 1, cy, cz - math.random() - 1)
-
+    SpawnPrefab("farm_soil").Transform:SetPosition(cx + 1.25 , cy, cz + 1.25)
+	SpawnPrefab("farm_soil").Transform:SetPosition(cx + 1.25 , cy, cz + 0)
+	SpawnPrefab("farm_soil").Transform:SetPosition(cx + 1.25 , cy, cz - 1.25)
+	
+	SpawnPrefab("farm_soil").Transform:SetPosition(cx + 0 , cy, cz + 1.25)
+	SpawnPrefab("farm_soil").Transform:SetPosition(cx + 0 , cy, cz + 0)
+	SpawnPrefab("farm_soil").Transform:SetPosition(cx + 0 , cy, cz - 1.25)
+	
+	SpawnPrefab("farm_soil").Transform:SetPosition(cx - 1.25 , cy, cz + 1.25)
+	SpawnPrefab("farm_soil").Transform:SetPosition(cx - 1.25 , cy, cz + 0)
+	SpawnPrefab("farm_soil").Transform:SetPosition(cx - 1.25 , cy, cz - 1.25)
 	Finished(inst)
 end
 
@@ -115,17 +112,6 @@ local function dirt_anim(inst, quad, timer)
 		offset_z = -offset_z
 	elseif quad == 3 then
 		offset_x = -offset_x
-	end
-	if offset_x*offset_x + offset_z*offset_z > 0.75*0.75 then
-		local _x, _z = x + offset_x, z + offset_z
-		if TheWorld.Map:CanTillSoilAtPoint(_x, 0, _z, true) then
-			TheWorld.Map:CollapseSoilAtPoint(_x, 0, _z)
-			local soil = SpawnPrefab("farm_soil")
-			soil.Transform:SetPosition(_x, 0, _z)
-			if soil.SetPlowing ~= nil then
-				soil:SetPlowing(inst)
-			end
-		end
 	end
 
 	local t = math.min(1, timer/(TUNING.FARM_PLOW_DRILLING_DURATION))
@@ -250,7 +236,7 @@ local function item_ondeploy(inst, pt, deployer)
     local obj = SpawnPrefab("farm_plow")
 	obj.Transform:SetPosition(cx, cy, cz)
 
-	inst.components.finiteuses:Use(1)
+	-- inst.components.finiteuses:Use(1) -- Gin 无限耐久
 	if inst:IsValid() then
 		obj.deploy_item_save_record = inst:GetSaveRecord()
 		inst:Remove()
@@ -311,10 +297,11 @@ local function item_fn()
 	inst.components.deployable:SetDeployMode(DEPLOYMODE.CUSTOM)
     inst.components.deployable.ondeploy = item_ondeploy
 
-	inst:AddComponent("finiteuses")
-    inst.components.finiteuses:SetOnFinished(inst.Remove)
-    inst.components.finiteuses:SetMaxUses(TUNING.FARM_PLOW_USES)
-    inst.components.finiteuses:SetUses(TUNING.FARM_PLOW_USES)
+    -- Gin 无限耐久
+	-- inst:AddComponent("finiteuses")
+    -- inst.components.finiteuses:SetOnFinished(inst.Remove)
+    -- inst.components.finiteuses:SetMaxUses(TUNING.FARM_PLOW_USES)
+    -- inst.components.finiteuses:SetUses(TUNING.FARM_PLOW_USES)
 
     MakeSmallBurnable(inst)
     MakeSmallPropagator(inst)
