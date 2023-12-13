@@ -17,7 +17,7 @@ local function ModifyChest(inst, name)
     end
 end
 
-local items = {"dragonflychest", "fish_box", "icebox", "magician_chest", "saltbox", "treasurechest"}
+local items = {"dragonflychest", "fish_box", "icebox", "magician_chest", "saltbox", "treasurechest", "shadowchester", "shadow_container", "minotaurchest"}
 
 for _, item in ipairs(items) do
     AddPrefabPostInit(item, function(inst)

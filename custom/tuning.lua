@@ -15,6 +15,8 @@ local tuning = {
     STACK_SIZE_SMALLITEM = 999,
     STACK_SIZE_TINYITEM = 999,
 
+    -- 无草蜥蜴
+    GRASSGEKKO_MORPH_CHANCE = 0,
     -- 快速挖田
     FARM_PLOW_DRILLING_DURATION = 0.1,
 
