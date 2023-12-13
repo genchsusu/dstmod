@@ -188,6 +188,10 @@ local DURABILITIES = {
     },
     LIGHT_DURABILITY = {
         "torch",                        -- 火炬
+        "campfire",                     -- 营火
+        "firepit",                      -- 石头营火
+        "coldfire",                     -- 冷火
+        "coldfirepit",                  -- 石头冷火
         "lantern",                      -- 提灯
         "lighter",                      -- 打火机
         "minerhat",                     -- 矿工帽

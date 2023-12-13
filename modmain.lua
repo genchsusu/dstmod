@@ -32,7 +32,8 @@ modimport("custom/prefabs/bananabush")              -- 修改香蕉树
 modimport("custom/containers")                      -- 修改箱子大小
 modimport("custom/prefabs/all_backpacks")           -- 修改背包
 modimport("custom/prefabs/all_chests")              -- 修改箱子
-
+modimport("custom/components/firedetector")         -- 灭火器不检测营火
+modimport("custom/prefabs/fire_protectioncircle")   -- 火焰保护圈
 
 -- modimport("custom/prefabs/")       -- 修改
 -- modimport("custom/prefabs/")       -- 修改

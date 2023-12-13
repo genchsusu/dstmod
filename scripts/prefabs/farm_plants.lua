@@ -72,8 +72,6 @@ local function dig_up(inst, worker)
         inst.components.lootdropper:DropLoot()
     end
 
-    -- call_for_reinforcements(inst, worker)
-
     if inst.components.growable ~= nil then
         local stage_data = inst.components.growable:GetCurrentStageData()
         if stage_data ~= nil and stage_data.dig_fx ~= nil then
@@ -301,8 +299,6 @@ local function OnPicked(inst, doer)
         local fruitfly = SpawnPrefab("friendlyfruitfly") -- Gin 友好的果蝇
         fruitfly.Transform:SetPosition(x, y, z)
     end
-
-    -- call_for_reinforcements(inst, doer)
 
     -- 删除周围一定范围内的所有 farm_soil_debris
     local radius = 10
