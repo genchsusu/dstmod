@@ -99,21 +99,6 @@ local function OnTerraform(inst, pt, old_tile_type, old_tile_turf_prefab)
 end
 
 local function dirt_anim(inst, quad, timer)
-	local x, y, z = inst.Transform:GetWorldPosition()
-	local padding = 0.5
-	local offset_x = math.random()
-	local offset_z = math.random()
-	offset_x = (1 - offset_x*offset_x) * 2
-	offset_z = (1 - offset_z*offset_z) * 2
-	if quad == 1 then
-		offset_x = -offset_x
-		offset_z = -offset_z
-	elseif quad == 2 then
-		offset_z = -offset_z
-	elseif quad == 3 then
-		offset_x = -offset_x
-	end
-
 	local t = math.min(1, timer/(TUNING.FARM_PLOW_DRILLING_DURATION))
 	local duration_delay = Lerp(TUNING.FARM_PLOW_DRILLING_DIRT_DELAY_BASE_START, TUNING.FARM_PLOW_DRILLING_DIRT_DELAY_BASE_END, t)
 	local delay = duration_delay + math.random() * TUNING.FARM_PLOW_DRILLING_DIRT_DELAY_VAR
