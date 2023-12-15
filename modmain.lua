@@ -34,6 +34,9 @@ modimport("custom/prefabs/all_backpacks")           -- 修改背包
 modimport("custom/prefabs/all_chests")              -- 修改箱子
 modimport("custom/components/firedetector")         -- 灭火器不检测营火
 modimport("custom/components/nosnow")               -- No Snow Covered
+modimport("custom/components/respawn")              -- 死亡不掉落 复活无敌15秒
+modimport("custom/prefabs/stack_ui_fix")            -- 修复堆叠UI Bug
 
--- modimport("custom/prefabs/")       -- 修改
+modimport("custom/resurrect")                       -- 打字复活
+modimport("custom/auto_stack")                      -- 自动堆叠
 -- modimport("custom/prefabs/")       -- 修改

@@ -1,4 +1,4 @@
-local rock1 = {
+local rock1_loot = {
     {'rocks',  1.00},
     {'rocks',  1.00},
     {'rocks',  1.00},
@@ -12,7 +12,7 @@ local rock1 = {
     {'gears',  1.00},
 }
 
-local rock2 = {
+local rock2_loot = {
     {'goldnugget',  1.00},
     {'goldnugget',  1.00},
     {'goldnugget',  1.00},
