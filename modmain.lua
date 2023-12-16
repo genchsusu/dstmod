@@ -39,4 +39,5 @@ modimport("custom/prefabs/stack_ui_fix")            -- 修复堆叠UI Bug
 
 modimport("custom/resurrect")                       -- 打字复活
 modimport("custom/auto_stack")                      -- 自动堆叠
+modimport("custom/prefabs/fire")                    -- 火焰保护圈
 -- modimport("custom/prefabs/")       -- 修改
