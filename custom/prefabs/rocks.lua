@@ -1,4 +1,4 @@
-local rock1_loot = {
+local rock1 = {
     {'rocks',  1.00},
     {'rocks',  1.00},
     {'rocks',  1.00},
@@ -12,7 +12,7 @@ local rock1_loot = {
     {'gears',  1.00},
 }
 
-local rock2_loot = {
+local rock2 = {
     {'goldnugget',  1.00},
     {'goldnugget',  1.00},
     {'goldnugget',  1.00},
@@ -100,8 +100,8 @@ end
 
 -- Apply the loot table and modifications to each rock prefab
 local rock_prefabs = {
-    { name = "rock1", loot = rock1_loot },
-    { name = "rock2", loot = rock2_loot },
+    { name = "rock1", loot = rock1 },
+    { name = "rock2", loot = rock2 },
     { name = "rock_flintless", loot = rock_flintless },
     { name = "rock_flintless_med", loot = rock_flintless_med },
     { name = "rock_flintless_low", loot = rock_flintless_low },
