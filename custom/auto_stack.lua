@@ -9,7 +9,7 @@ local autoStackEnabled = true
 local autoStackRange = 10
 
 local function CanAutoStack(item)
-    if not item:HasTag("smallcreature") and not item:HasTag("flying") then
+    if not item:HasTag("smallcreature") or not item:HasTag("flying") then
         return true
     end
     return false
