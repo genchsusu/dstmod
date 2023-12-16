@@ -1,116 +1,97 @@
-local rock1 = {
-    {'rocks',  1.00},
-    {'rocks',  1.00},
-    {'rocks',  1.00},
-    {'rocks',  1.00},
-    {'rocks',  1.00},
-    {'nitre',  1.00},
-    {'nitre',  1.00},
-    {'flint',  1.00},
-    {'flint',  1.00},
-    {'marble',  1.00},
-    {'gears',  1.00},
-}
-
-local rock2 = {
-    {'goldnugget',  1.00},
-    {'goldnugget',  1.00},
-    {'goldnugget',  1.00},
-    {'goldnugget',  1.00},
-    {'goldnugget',  1.00},
-    {'goldnugget',  1.00},
-    {'goldnugget',  1.00},
-    {'goldnugget',  1.00},
-    {'goldnugget',  1.00},
-    {'marble',  1.00},
-    {'gears',  1.00},
-}
-
-local rock_flintless = {
-    {'bluegem',  0.50},
-    {'redgem',  0.50},
-    {'orangegem',  0.50},
-    {'yellowgem',  0.50},
-    {'greengem',  0.50},
-    {'purplegem',  0.50},
-    {'thulecite',  0.50},
-}
-
-local rock_flintless_med = {
-    {'bluegem',  0.50},
-    {'redgem',  0.50},
-    {'orangegem',  0.50},
-    {'yellowgem',  0.50},
-    {'greengem',  0.50},
-    {'purplegem',  0.50},
-    {'thulecite',  0.50},
-}
-
-
-local rock_flintless_low = {
-    {'bluegem',  0.50},
-    {'redgem',  0.50},
-    {'orangegem',  0.50},
-    {'yellowgem',  0.50},
-    {'greengem',  0.50},
-    {'purplegem',  0.50},
-    {'thulecite',  0.50},
-}
-local rock_moon = {
-    {'moonrocknugget',  1.00},
-    {'moonrocknugget',  1.00},
-    {'moonrocknugget',  1.00},
-    {'moonrocknugget',  1.00},
-    {'moonrocknugget',  1.00},
-    {'moonrocknugget',  1.00},
-    {'moonrocknugget',  1.00},
-    {'moonrocknugget',  1.00},
-}
-
-local rock_moon_shell = {
-    {'moonrocknugget',  1.00},
-    {'moonrocknugget',  1.00},
-    {'moonrocknugget',  1.00},
-    {'moonrocknugget',  1.00},
-    {'moonrocknugget',  1.00},
-    {'moonrocknugget',  1.00},
-    {'moonrocknugget',  1.00},
-    {'moonrocknugget',  1.00},
-}
-
-local rock_moon_glass = {
-    {'moonglass',       1.00},
-    {'moonglass',       1.00},
-    {'moonglass',       1.00},
-    {'moonglass',       1.00},
-    {'moonglass',       1.00},
-    {'moonglass',       1.00},
-}
-
+-------------------------------------------------------------------------
+-- Rocks never disappear
 local function ModifyRockPrefab(inst)
     local old_onwork = inst.components.workable.onwork
     inst.components.workable.onwork = function(inst, worker, workleft, ...)
         inst.components.workable.workleft = 10
+        inst.doNotRemoveOnWorkDone = true
         if old_onwork then
             old_onwork(inst, worker, workleft, ...)
         end
     end
-    inst.doNotRemoveOnWorkDone = true
 end
 
--- Apply the loot table and modifications to each rock prefab
-local rock_prefabs = {
-    { name = "rock1", loot = rock1 },
-    { name = "rock2", loot = rock2 },
-    { name = "rock_flintless", loot = rock_flintless },
-    { name = "rock_flintless_med", loot = rock_flintless_med },
-    { name = "rock_flintless_low", loot = rock_flintless_low },
-    { name = "rock_moon", loot = rock_moon },
-    { name = "rock_moon_shell", loot = rock_moon_shell },
-    { name = "moonglass_rock", loot = rock_moon_glass },
+local rocks = {
+    "rock1", "rock2", 
+    "rock_flintless", "rock_flintless_med", "rock_flintless_low", 
+    "rock_petrified_tree", "rock_petrified_tree_med", "rock_petrified_tree_tall", "rock_petrified_tree_short", "rock_petrified_tree_old",
+    "rock_moon", "rock_moon_shell", 
+    "moonglass_rock"
 }
 
-for _, rock in ipairs(rock_prefabs) do
-    GLOBAL.SetSharedLootTable(rock.name, rock.loot)
-    AddPrefabPostInit(rock.name, ModifyRockPrefab)
+for _, rock in ipairs(rocks) do
+    AddPrefabPostInit(rock, function(inst)
+        ModifyRockPrefab(inst)
+    end)
 end
+
+
+-------------------------------------------------------------------------
+-- Add more loot to rocks
+local function AddLoot(prefab, loot, value)
+    if type(prefab) == "table" then
+        for _, v in ipairs(prefab) do
+            AddLoot(v, loot, value)
+        end
+        return
+    end
+
+    -- Create table if needed
+    LootTables[prefab] = LootTables[prefab] or {}
+
+    --Divide loot into single objects, for example 1.5 bluegem will be 2 bluegem with 50% chance
+    while value > 0.01 do
+        local val = value > 1 and 1 or value
+        table.insert(LootTables[prefab], {loot, val})
+        value = value - val
+    end
+end
+
+local function PreInitLoot()
+    AddLoot("rock1", "rocks", 10.00)
+    AddLoot("rock1", "nitre", 5.00)
+    AddLoot("rock1", "flint", 5.00)
+    AddLoot("rock1", "marble", 5.00)
+    AddLoot("rock1", "gears", 5.0)
+
+    AddLoot("rock2", "goldnugget", 10.00)
+    AddLoot("rock2", "marble", 5.00)
+    AddLoot("rock2", "gears", 5.0)
+
+
+    AddLoot("rock_moon", "moonrocknugget", 8.00)
+    AddLoot("rock_moon_shell", "moonrocknugget", 8.00)
+    AddLoot("rock_moon_glass", "moonglass", 8.00)
+    local others = {
+        "rock_flintless", "rock_flintless_med", "rock_flintless_low", 
+        "rock_petrified_tree", "rock_petrified_tree_med", "rock_petrified_tree_tall", "rock_petrified_tree_short", "rock_petrified_tree_old",
+    }
+    AddLoot(others,'bluegem', 1.50)
+    AddLoot(others,'redgem', 1.50)
+    AddLoot(others,'orangegem',  1.50)
+    AddLoot(others,'yellowgem', 1.50)
+    AddLoot(others,'greengem', 1.50)
+    AddLoot(others,'purplegem',  1.50)
+    AddLoot(others,'thulecite', 1.50)
+end
+
+local function GetGlobal(globalName, defaultValue)
+    local result = GLOBAL.rawget(GLOBAL, globalName)
+    if defaultValue ~= nil and result == nil then
+        GLOBAL.rawset(GLOBAL, globalName, defaultValue)
+        return defaultValue
+    end
+    return result
+end
+
+local is_forest
+local function ForestInit(inst)
+    if is_forest then return end
+    is_forest = true
+
+    LootTables = GetGlobal("LootTables", {})
+    PreInitLoot()
+end
+
+AddPrefabPostInit("world", ForestInit)
+AddPrefabPostInit("forest", ForestInit)
