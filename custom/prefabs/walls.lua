@@ -9,16 +9,13 @@ local function ModifyWallPrefab(inst)
         return old_Destroy(self,destroyer)
     end
 
-    inst:AddTag("shelter") -- 庇护所
-    inst:AddTag("blocker")
     inst:AddTag("birdblocker")
     inst:AddTag("antlion_sinkhole_blocker")
     inst:AddTag("lightningrod") -- 加个避雷针
     -- 添加光源和理智光环
     inst.entity:AddLight()
-
     inst.Light:Enable(true)
-    inst.Light:SetRadius(3)
+    inst.Light:SetRadius(1)
     inst.Light:SetFalloff(0.5)
     inst.Light:SetIntensity(0.8)
     inst.Light:SetColour(255 / 255, 230 / 255, 150 / 255)
@@ -26,8 +23,8 @@ local function ModifyWallPrefab(inst)
     inst:AddComponent("sanityaura")
     inst.components.sanityaura.aura = TUNING.SANITYAURA_SUPERHUGE
 
-    -- Custom collision check for hostile tag
-    inst:DoPeriodicTask(0.05, function(inst)
+    -- Only allow players to cross the wall
+    inst:DoPeriodicTask(.1, function(inst)
         local x, y, z = inst.Transform:GetWorldPosition()
         local players = TheSim:FindEntities(x, y, z, 3, {"player"})
         if #players > 0 then

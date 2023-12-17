@@ -1,6 +1,6 @@
 local function AddProtectionWallComponent(inst)
     inst:AddComponent("protectionwall")
-    inst.components.protectionwall:SetRadius(10)
+    inst.components.protectionwall:SetRadius(12)
 
     inst:ListenForEvent("onbuilt", function(inst)
         inst.components.protectionwall:CreateWalls()

@@ -5,6 +5,10 @@ Assets = {
     Asset("ANIM", "anim/ui_chest_8x20.zip"),
 }
 
+PrefabFiles = {
+    "fire_wall",
+}
+
 modimport("custom/tuning")
 modimport("custom/components/birdspawner")          -- 给大树干加驱逐鸟的功能
 modimport("custom/prefabs/watertree_pillar")        -- 给大树干加驱逐鸟的功能

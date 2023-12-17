@@ -16,9 +16,12 @@ function ProtectionWall:CreateWalls()
         local wx = x + self.radius * math.cos(angle * DEGREES)
         local wz = z + self.radius * math.sin(angle * DEGREES)
 
-        local wall = SpawnPrefab("wall_stone")
+        -- local wall = SpawnPrefab("wall_stone")
+        local wall = SpawnPrefab("fire_wall")
         wall.Transform:SetPosition(wx, 0, wz)
-        wall.components.health:SetPercent(0.25)
+        if wall.components.health then
+            wall.components.health:SetPercent(1)
+        end
 
         table.insert(self.walls, wall)
     end

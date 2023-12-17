@@ -83,10 +83,11 @@ grass,berrybush,berrybush2,berrybush_juicy,monkeytail,sapling,sapling_moon
 ## stack_ui_fix
 修复堆叠数量显示不正确的bug
 ## walls
-墙吸收100%伤害,无法被瞬间摧毁,庇护所,防鸟,防蚁狮,避雷针,发光,补脑,玩家可以直接穿透
+墙吸收100%伤害,无法被瞬间摧毁,防鸟,防蚁狮,避雷针,发光,补脑,玩家可以直接穿透
 ## watertree_pillar
 水中木驱鸟
-
+## fire_wall
+火焰形状的墙 无热量 仅玩家可以通过
 ```
 
 Utils
