@@ -26,7 +26,7 @@ for _, item in ipairs(items) do
 end
 
 -- 再加个吸尘器系统
-local VACUUM_RANGE = 20
+local VACUUM_RANGE = 10
 local VACUUM_PERIOD = 0.01
 local BAN_LIST = {"bullkelp_beached", "spoiled_food", "mandrake", "cursed_monkey_token"}
 

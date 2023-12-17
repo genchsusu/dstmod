@@ -1,13 +1,22 @@
-local function countNearbyOceanFish(inst, range)
+-- local function countNearbyOceanFish(inst, range)
+--     local x, y, z = inst.Transform:GetWorldPosition()
+--     local entities = TheSim:FindEntities(x, y, z, range, {"oceanfish"}, {"INLIMBO"})
+--     return #entities
+-- end
+local function isPlayerNearby(inst, range)
     local x, y, z = inst.Transform:GetWorldPosition()
-    local entities = TheSim:FindEntities(x, y, z, range, {"oceanfish"}, {"INLIMBO"})
-    return #entities
+    local players = TheSim:FindEntities(x, y, z, range, {"player"})
+    return #players > 0
 end
 
 local function createFish(inst)
-    local range = 20
-    if countNearbyOceanFish(inst, range) > 25 then
-        return false, "TOOMANYFISH"
+    -- local range = 20
+    -- if countNearbyOceanFish(inst, range) > 25 then
+    --     return false, "TOOMANYFISH"
+    -- end
+    local range = 10
+    if not isPlayerNearby(inst, range) then
+        return false, "NOPLAYERSNEARBY"
     end
 
     local schoolspawner = GLOBAL.TheWorld.components.schoolspawner

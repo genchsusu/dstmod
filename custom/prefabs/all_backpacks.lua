@@ -8,8 +8,8 @@ local function ModifyBackpack(inst)
     if not inst.entity:HasTag("light") then
         inst.entity:AddLight()
     end
-    inst.Light:Enable(false)
-    inst.Light:SetRadius(6)
+    inst.Light:Enable(true)
+    inst.Light:SetRadius(1)
     inst.Light:SetFalloff(0.5)
     inst.Light:SetIntensity(0.8)
     inst.Light:SetColour(255 / 255, 230 / 255, 150 / 255)
@@ -22,7 +22,6 @@ local function ModifyBackpack(inst)
     local old_onequip = inst.components.equippable.onequipfn
     inst.components.equippable:SetOnEquip(function(inst, owner)
         old_onequip(inst, owner)
-        inst.Light:Enable(true)
         if owner and owner.components.temperature then
             owner:DoPeriodicTask(.1, function(owner)
                 owner.components.temperature:SetTemperature(35)
@@ -33,7 +32,6 @@ local function ModifyBackpack(inst)
     local old_onunequip = inst.components.equippable.onunequipfn
     inst.components.equippable:SetOnUnequip(function(inst, owner)
         old_onunequip(inst, owner)
-        inst.Light:Enable(false)
     end)
 end
 

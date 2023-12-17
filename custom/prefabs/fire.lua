@@ -13,7 +13,8 @@ local function AddProtectionWallComponent(inst)
     end
 end
 
-AddPrefabPostInit("campfire", AddProtectionWallComponent)
-AddPrefabPostInit("firepit", AddProtectionWallComponent)
-AddPrefabPostInit("coldfire", AddProtectionWallComponent)
-AddPrefabPostInit("coldfirepit", AddProtectionWallComponent)
+local items = {"campfire", "firepit", "coldfire", "coldfirepit"}
+
+for _, item in ipairs(items) do
+    AddPrefabPostInit(item, AddProtectionWallComponent)
+end
