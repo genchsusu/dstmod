@@ -9,6 +9,33 @@ local function onhammered(inst, worker)
     inst:Remove()
 end
 
+local function MakeObstaclePhysicsBlockAll(inst, rad, height)
+    inst:AddTag("blocker")
+    local phys = inst.entity:AddPhysics()
+    phys:SetMass(0) -- Bullet wants 0 mass for static objects
+    phys:SetCollisionGroup(COLLISION.CHARACTERS)
+    phys:SetCollisionGroup(COLLISION.FLYERS)
+    phys:SetCollisionGroup(COLLISION.GIANTS)
+    phys:SetCollisionGroup(COLLISION.GROUND)
+    phys:SetCollisionGroup(COLLISION.ITEMS)
+    phys:SetCollisionGroup(COLLISION.OBSTACLES)
+    phys:SetCollisionGroup(COLLISION.SMALLOBSTACLES)
+    phys:SetCollisionGroup(COLLISION.WORLD)
+
+    phys:ClearCollisionMask()
+    phys:CollidesWith((TheWorld.has_ocean and COLLISION.GROUND) or COLLISION.WORLD)
+    phys:CollidesWith(COLLISION.CHARACTERS)
+    phys:CollidesWith(COLLISION.FLYERS)
+    phys:CollidesWith(COLLISION.GIANTS)
+    phys:CollidesWith(COLLISION.GROUND)
+    phys:CollidesWith(COLLISION.ITEMS)
+    phys:CollidesWith(COLLISION.OBSTACLES)
+    phys:CollidesWith(COLLISION.SMALLOBSTACLES)
+    phys:CollidesWith(COLLISION.WORLD)
+    phys:SetCapsule(rad, height or 2)
+    return phys
+end
+
 local function fn()
     local inst = CreateEntity()
 
@@ -16,7 +43,7 @@ local function fn()
     inst.entity:AddAnimState()
     inst.entity:AddNetwork()
 
-    MakeObstaclePhysics(inst, .5)
+    MakeObstaclePhysicsBlockAll(inst, .5)
 
     inst.AnimState:SetBank("campfire_fire")
     inst.AnimState:SetBuild("campfire_fire")
@@ -57,7 +84,7 @@ local function fn()
     -- Only allow players to cross the wall
     inst:DoPeriodicTask(.1, function(inst)
         local x, y, z = inst.Transform:GetWorldPosition()
-        local players = TheSim:FindEntities(x, y, z, 3, {"player"})
+        local players = TheSim:FindEntities(x, y, z, 1.8, {"player"})
         if #players > 0 then
             inst.Physics:SetActive(false)
         else

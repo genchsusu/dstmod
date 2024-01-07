@@ -11,12 +11,12 @@ end
 function ProtectionWall:CreateWalls()
     local x, y, z = self.inst.Transform:GetWorldPosition()
     local number = self.radius * 5
+
     for i = 1, number do
         local angle = (i-1) * (360 / number)
         local wx = x + self.radius * math.cos(angle * DEGREES)
         local wz = z + self.radius * math.sin(angle * DEGREES)
 
-        -- local wall = SpawnPrefab("wall_stone")
         local wall = SpawnPrefab("fire_wall")
         wall.Transform:SetPosition(wx, 0, wz)
         if wall.components.health then

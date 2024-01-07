@@ -11,6 +11,12 @@ local function AddProtectionWallComponent(inst)
         inst.components.protectionwall:RemoveWalls()
         old_onfinish(inst, worker, ...)    
     end
+
+    local old_onremove = inst.OnRemoveEntity
+    inst.OnRemoveEntity = function(inst)
+        inst.components.protectionwall:RemoveWalls()
+        if old_onremove then old_onremove(inst) end
+    end
 end
 
 local items = {"campfire", "firepit", "coldfire", "coldfirepit"}

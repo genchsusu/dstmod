@@ -53,6 +53,7 @@ local function PreInitLoot()
     AddLoot("rock1", "flint", 5.00)
     AddLoot("rock1", "marble", 5.00)
     AddLoot("rock1", "gears", 5.0)
+    AddLoot("rock1", "ice", 10.0)
 
     AddLoot("rock2", "goldnugget", 10.00)
     AddLoot("rock2", "marble", 5.00)
