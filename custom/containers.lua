@@ -64,6 +64,31 @@ params.quagmire_safe.widget.animbuild = "ui_chest_5x16"
 
 SetChest_80(params.fish_box)
 
+-- Change size of Backpacks
+local function updatecontainer(container)
+	container.widget =
+    {
+        slotpos = {},
+        animbank = nil,
+        animbuild = nil,
+        bgatlas = "images/sack27.xml",
+        bgimage = "sack27.tex",
+        pos = Vector3(-50 - 23 * 2 - 0, 125 - 23 * 8 + 0, 0),
+    }
+
+    for y = 0, 8 do
+        table.insert(container.widget.slotpos, Vector3(0 + 75, 0 - y * 75 + 300, 0))
+        table.insert(container.widget.slotpos, Vector3(0 - 75 + 75, 0 - y * 75 + 300, 0))
+        table.insert(container.widget.slotpos, Vector3(0 - 75 - 75 + 75, 0 - y * 75 + 300, 0))
+    end
+end
+updatecontainer(params.backpack)
+params.icepack = params.backpack
+updatecontainer(params.krampus_sack)
+updatecontainer(params.piggyback)
+
+
 for k, v in pairs(params) do
     containers.MAXITEMSLOTS = math.max(containers.MAXITEMSLOTS, v.widget.slotpos ~= nil and #v.widget.slotpos or 0)
 end
+

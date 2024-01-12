@@ -3,6 +3,7 @@ GLOBAL.setmetatable(env,{__index=function(t,k) return GLOBAL.rawget(GLOBAL,k) en
 Assets = {
     Asset("ANIM", "anim/ui_chest_5x16.zip"),
     Asset("ANIM", "anim/ui_chest_8x20.zip"),
+    Asset("ATLAS", "images/sack27.xml"),
 }
 
 PrefabFiles = {
@@ -16,7 +17,7 @@ modimport("custom/prefabs/friendlyfruitfly")        -- 果蝇强化
 modimport("custom/prefabs/infiniteuses")            -- 无限耐久
 modimport("custom/components/boatphysics")          -- 船最大转向速度
 modimport("custom/prefabs/force_plant")             -- 强制种植无法种植的植物
-modimport("custom/prefabs/perd")                    -- 鸡生蛋
+modimport("custom/prefabs/animal_product")          -- 鸡生蛋, 兔子掉毛,
 modimport("custom/prefabs/pond")                    -- 池塘长曼德拉草
 modimport("custom/prefabs/soil_amender")            -- soil_amender可堆叠
 modimport("custom/prefabs/walls")                   -- 无敌城墙
@@ -44,4 +45,6 @@ modimport("custom/prefabs/stack_ui_fix")            -- 修复堆叠UI Bug
 modimport("custom/resurrect")                       -- 打字复活
 modimport("custom/auto_stack")                      -- 自动堆叠
 modimport("custom/prefabs/fire")                    -- 火焰保护圈
+
+modimport("custom/show_fish")                       -- 海吊杆显示鱼群信息
 -- modimport("custom/prefabs/")       -- 修改

@@ -44,6 +44,9 @@ local tuning = {
     PERD_RUN_SPEED = 1,
     PERD_WALK_SPEED = 1,
 
+    -- 池塘刷鱼时间
+    FISH_RESPAWN_TIME = 1 ,
+
     EVERGREEN_GROW_TIME =
     {
         {base=1, random=0},   --short
@@ -386,10 +389,14 @@ local tuning = {
         ATTACK_AOE = 1.5,
         HEALTH = 500,
 
-        MAX_BARNACLES = 3,
-        GROW_TIME = 2.5 * total_day_time,
-        GROW_VARIANCE = 1.5 * total_day_time,
-        REBIRTH_TIME = 2 * total_day_time,
+        MAX_BARNACLES = 999,
+        GROW_TIME = 5,
+        GROW_VARIANCE = 5,
+        REBIRTH_TIME = 5,
+        -- MAX_BARNACLES = 3,
+        -- GROW_TIME = 2.5 * total_day_time,
+        -- GROW_VARIANCE = 1.5 * total_day_time,
+        -- REBIRTH_TIME = 2 * total_day_time,
 
         ANGERING_HIT_VELOCITY = 2.01,
 
@@ -403,10 +410,14 @@ local tuning = {
 
         FISH_SPAWN =
         {
-            MAX_CHILDREN = 1,
+            MAX_CHILDREN = 5,
             SPAWN_RADIUS = 4.5,
-            REGEN_PERIOD = seg_time * 8,
-            WHITE_REGEN_PERIOD = seg_time * 4,
+            REGEN_PERIOD = 10,
+            WHITE_REGEN_PERIOD = 5,
+            -- MAX_CHILDREN = 1,
+            -- SPAWN_RADIUS = 4.5,
+            -- REGEN_PERIOD = seg_time * 8,
+            -- WHITE_REGEN_PERIOD = seg_time * 4,
         },
     },
     MAST_LAMP_LIGHTTIME = total_day_time*999,

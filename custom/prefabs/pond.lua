@@ -6,3 +6,4 @@ end
 
 AddPrefabPostInit("pond", ModifyPondPlantType)
 AddPrefabPostInit("pond_mos", ModifyPondPlantType)
+AddPrefabPostInit("pond_cave", ModifyPondPlantType)
