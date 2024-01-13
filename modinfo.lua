@@ -1,6 +1,6 @@
 name = "Gin's Mod"
 author = "OpenSource"
-version = "0.3"
+version = "0.4"
 
 description = [[
 个人mod合集:
