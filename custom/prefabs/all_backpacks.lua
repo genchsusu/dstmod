@@ -4,7 +4,6 @@ local function DoNothing() end
 
 local function ModifyBackpack(inst)
     inst:AddTag("fridge")
-    inst:AddTag("goggles")
 
     if not inst.components.waterproofer then
         inst:AddTag("waterproofer")
