@@ -51,3 +51,26 @@ modimport("custom/prefabs/mermking")                -- 修改鱼人国王
 
 modimport("custom/show_fish")                       -- 海吊杆显示鱼群信息
 -- modimport("custom/prefabs/")       -- 修改
+
+-- 解锁全图鉴
+AddPlayerPostInit(
+  function(inst)
+    inst:DoTaskInTime(
+      0,
+      function()
+        if inst == ThePlayer then
+			TheScrapbookPartitions:DebugUnlockEverything()
+
+            -- 移除特定物品
+            local itemsToRemove = { "boatfragment03", "boatfragment04", "boatfragment05" }
+            for _, itemName in ipairs(itemsToRemove) do
+                local items = TheSim:FindEntities(0, 0, 0, 10000, { itemName })
+                for i, item in ipairs(items) do
+                item:Remove()
+                end
+            end
+          end
+        end
+    )
+  end
+)

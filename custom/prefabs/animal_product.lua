@@ -17,10 +17,14 @@ local function RandomSelectItem(items)
     return items[index]
 end
 
--- 猪不吃猪皮
-AddPrefabPostInit("pigskin",function(inst)
-    inst:RemoveComponent("edible")
-end)
+-- 猪皮, 兔毛不可食用
+local nonEdibleItems = { "manrabbit_tail", "pigskin" }
+
+for _, itemName in ipairs(nonEdibleItems) do
+    AddPrefabPostInit(itemName, function(inst)
+        inst:RemoveComponent("edible")
+    end)
+end
 
 AddPeriodicSpawnerToPrefab("perd", "bird_egg")
 AddPeriodicSpawnerToPrefab("rabbit", "manrabbit_tail")
