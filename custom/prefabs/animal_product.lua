@@ -34,6 +34,6 @@ AddPeriodicSpawnerToPrefab("squid", "lightbulb")
 AddPeriodicSpawnerToPrefab("spat", "steelwool")
 AddPeriodicSpawnerToPrefab("mossling", "goose_feather")
 AddPeriodicSpawnerToPrefab("leif", "livinglog")
-
 AddPeriodicSpawnerToPrefab("bee", RandomSelectItem({"honey","honeycomb"}))
 AddPeriodicSpawnerToPrefab("waterplant", "barnacle")
+AddPeriodicSpawnerToPrefab("birds", RandomSelectItem({"guano", "bird_egg"}))

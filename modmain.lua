@@ -11,6 +11,7 @@ PrefabFiles = {
 }
 
 modimport("custom/tuning")
+modimport("custom/recipes")                         -- 修改配方
 modimport("custom/components/birdspawner")          -- 给大树干加驱逐鸟的功能
 modimport("custom/prefabs/watertree_pillar")        -- 给大树干加驱逐鸟的功能
 modimport("custom/prefabs/friendlyfruitfly")        -- 果蝇强化
@@ -45,6 +46,8 @@ modimport("custom/prefabs/stack_ui_fix")            -- 修复堆叠UI Bug
 modimport("custom/resurrect")                       -- 打字复活
 modimport("custom/auto_stack")                      -- 自动堆叠
 modimport("custom/prefabs/fire")                    -- 火焰保护圈
+
+modimport("custom/prefabs/mermking")                -- 修改鱼人国王
 
 modimport("custom/show_fish")                       -- 海吊杆显示鱼群信息
 -- modimport("custom/prefabs/")       -- 修改
