@@ -1,7 +1,9 @@
 AddPrefabPostInit("firesuppressor", function(inst)
-    inst:AddTag("shelter") -- 庇护所
-    inst:AddTag("blocker")
-    inst:AddTag("birdblocker")
+    inst:AddTag("absolute_guard")
+    inst:AddTag("shelter")
+    inst:AddTag("drive_bird_scarecrow")
     inst:AddTag("antlion_sinkhole_blocker")
-    inst:AddTag("lightningrod") -- 加个避雷针
+    inst:AddTag("quake_blocker")
+    inst:AddComponent("lightningblocker") 
+    inst.components.lightningblocker:SetBlockRange(28)
 end)

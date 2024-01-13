@@ -21,7 +21,7 @@ local function ModifyBackpack(inst)
 
     
     inst:AddComponent("armor")
-    inst.components.armor:InitCondition(TUNING.ARMORRUINS, 0.99)
+    inst.components.armor:InitCondition(TUNING.ARMORRUINS, 0.80)
 
     inst:AddTag("Infinite")
     if DST then inst:AddTag("hide_percentage") end
