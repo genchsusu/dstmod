@@ -41,6 +41,7 @@ modimport("custom/prefabs/all_chests")              -- 修改箱子
 modimport("custom/components/firedetector")         -- 灭火器不检测营火
 modimport("custom/components/nosnow")               -- No Snow Covered
 modimport("custom/components/respawn")              -- 死亡不掉落 复活无敌15秒
+modimport("custom/components/absolute_guard")       -- 绝对防护
 modimport("custom/prefabs/stack_ui_fix")            -- 修复堆叠UI Bug
 
 modimport("custom/resurrect")                       -- 打字复活

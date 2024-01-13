@@ -36,17 +36,26 @@ local function ModifyWallPrefab(inst)
         return old_Destroy(self,destroyer)
     end
 
-    inst:AddTag("birdblocker")
-    inst:AddTag("antlion_sinkhole_blocker")
-    inst:AddTag("lightningrod") -- 加个避雷针
-    -- 添加光源和理智光环
+   -- 添加光源和理智光环
     inst.entity:AddLight()
     inst.Light:Enable(true)
     inst.Light:SetRadius(6)
     inst.Light:SetFalloff(0.5)
     inst.Light:SetIntensity(0.8)
-    inst.Light:SetColour(255 / 255, 230 / 255, 150 / 255)
+    -- inst.Light:SetColour(255 / 255, 230 / 255, 150 / 255)
+    inst.Light:SetColour(223/255, 208/255, 69/255)
 
+    --日光效果
+    inst:AddTag("daylight")
+    inst:AddTag("absolute_guard") --绝对防护
+    inst:AddTag("drive_bird_scarecrow")
+    inst:AddTag("antlion_sinkhole_blocker")
+    inst:AddTag("quake_blocker") --防止地震（半径10格地皮的圆）
+
+    --避雷针效果
+    inst:AddComponent("lightningblocker") 
+    inst.components.lightningblocker:SetBlockRange(28)
+    
     inst:AddComponent("sanityaura")
     inst.components.sanityaura.aura = TUNING.SANITYAURA_SUPERHUGE
 
