@@ -75,7 +75,10 @@ AddPrefabPostInit("treasurechest", function(inst)
     end
 
     local function isItemValid(ent)
-        return ent.components.inventoryitem and ent.components.inventoryitem.canbepickedup and ent.components.inventoryitem.cangoincontainer and not table.contains(BAN_LIST, ent.prefab)
+        return ent.components.inventoryitem 
+        and ent.components.inventoryitem.canbepickedup 
+        and ent.components.inventoryitem.cangoincontainer 
+        and not table.contains(BAN_LIST, ent.prefab)
     end
 
     local function pickupItem(item, pos)
