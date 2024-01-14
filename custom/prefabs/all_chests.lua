@@ -34,38 +34,34 @@ local VACUUM_RANGE = 10
 local VACUUM_PERIOD = 0.01
 local BAN_LIST = {"bullkelp_beached", "spoiled_food", "mandrake", "cursed_monkey_token"}
 
-local function OnEnableHelper(inst, enabled)
-    if enabled then
-        if inst.helper == nil then
-            inst.helper = CreateEntity()
+local function OnEnableHelper(inst)
+    if inst.helper == nil then
+        inst.helper = CreateEntity()
 
-            --[[Non-networked entity]]
-            inst.helper.entity:SetCanSleep(false)
-            inst.helper.persists = false
+        --[[Non-networked entity]]
+        inst.helper.entity:SetCanSleep(false)
+        inst.helper.persists = false
 
-            inst.helper.entity:AddTransform()
-            inst.helper.entity:AddAnimState()
+        inst.helper.entity:AddTransform()
+        inst.helper.entity:AddAnimState()
 
-            inst.helper:AddTag("CLASSIFIED")
-            inst.helper:AddTag("NOCLICK")
-            inst.helper:AddTag("placer")
-            --minus or add 0.25 for every 5 range
-            local PLACER_SCALE = VACUUM_RANGE == 10 and 1.255 or VACUUM_RANGE == 15 and 1.55 or VACUUM_RANGE == 20 and 1.75
-            -- local PLACER_SCALE = 1.0 + ((VACUUM_RANGE / 5) * 0.25)
-            inst.helper.Transform:SetScale(PLACER_SCALE, PLACER_SCALE, PLACER_SCALE)
+        inst.helper:AddTag("CLASSIFIED")
+        inst.helper:AddTag("NOCLICK")
+        inst.helper:AddTag("placer")
+        local PLACER_SCALE = math.sqrt( VACUUM_RANGE * 300 / 1900)
+        inst.helper.Transform:SetScale(PLACER_SCALE, PLACER_SCALE, PLACER_SCALE)
 
-            inst.helper.AnimState:SetBank("firefighter_placement")
-            inst.helper.AnimState:SetBuild("firefighter_placement")
-            inst.helper.AnimState:PlayAnimation("idle")
-            inst.helper.AnimState:SetLightOverride(1)
-            inst.helper.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
-            inst.helper.AnimState:SetLayer(LAYER_BACKGROUND)
-            inst.helper.AnimState:SetSortOrder(1)
-            inst.helper.AnimState:SetAddColour(0, .2, .5, 0)
+        inst.helper.AnimState:SetBank("firefighter_placement")
+        inst.helper.AnimState:SetBuild("firefighter_placement")
+        inst.helper.AnimState:PlayAnimation("idle")
+        inst.helper.AnimState:SetLightOverride(1)
+        inst.helper.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
+        inst.helper.AnimState:SetLayer(LAYER_BACKGROUND)
+        inst.helper.AnimState:SetSortOrder(1)
+        inst.helper.AnimState:SetAddColour(0, .2, .5, 0)
 
-            inst.helper.entity:SetParent(inst.entity)
-        end
-    elseif inst.helper ~= nil then
+        inst.helper.entity:SetParent(inst.entity)
+    else
         inst.helper:Remove()
         inst.helper = nil
     end
@@ -78,8 +74,17 @@ AddPrefabPostInit("treasurechest", function(inst)
         inst.components.deployhelper.onenablehelper = OnEnableHelper
     end
 
-    -- 定义吸入物品的函数
-    local function suckit(item)
+    local function isItemValid(ent)
+        return ent.components.inventoryitem and ent.components.inventoryitem.canbepickedup and ent.components.inventoryitem.cangoincontainer and not table.contains(BAN_LIST, ent.prefab)
+    end
+
+    local function pickupItem(item, pos)
+        -- Create a shadow effect
+        local shadowpuff = SpawnPrefab("shadow_puff_large_front")
+        shadowpuff.Transform:SetPosition(pos.x, 0, pos.z)
+        shadowpuff.Transform:SetScale(0.7, 0.7, 0.7)            
+        SpawnPrefab("shadow_despawn").Transform:SetPosition(pos.x, 1, pos.z)
+        -- Pickup item
         if inst.AnimState:IsCurrentAnimation("closed") or inst.AnimState:IsCurrentAnimation("close") then
             inst.AnimState:PlayAnimation("hit")
             inst.AnimState:PushAnimation("closed", false)
@@ -88,30 +93,21 @@ AddPrefabPostInit("treasurechest", function(inst)
         inst.components.container:GiveItem(item)
     end
 
-    -- 检查物品是否在禁拿清单上
-    local function itemExists(item)
-        return table.contains(BAN_LIST, item)
+    local function canPickupItem(inst, item)
+        -- Check if item can be stacked and if there is a stackable item in the chest
+        local canStackItem = item.components.stackable and inst.components.container:FindItem(function(i)
+            return (i.prefab == item.prefab and not i.components.stackable:IsFull())
+        end)
+
+        return not inst.components.container:IsFull() or canStackItem
     end
+    
 
     local function vacuum(inst)
-        local function IsItem(ent)
-            return ent.components.inventoryitem and ent.components.inventoryitem.canbepickedup and ent.components.inventoryitem.cangoincontainer and not itemExists(ent.prefab)
-        end
-
-        local Item = FindEntity(inst, VACUUM_RANGE, IsItem, {"_inventoryitem"}, {"INLIMBO", "NOCLICK", "catchable", "fire", "trap", "minesprung", "mineactive"})
+        local Item = FindEntity(inst, VACUUM_RANGE, isItemValid, {"_inventoryitem"}, {"INLIMBO", "NOCLICK", "catchable", "fire", "trap", "minesprung", "mineactive"})
         
-        if Item then
-            if not inst.components.container:IsFull() or (Item.components.stackable and inst.components.container:FindItem(function(i) return (i.prefab == Item.prefab and not i.components.stackable:IsFull()) end)) then
-                local pos = Item:GetPosition() 
-                local shadowpuff = SpawnPrefab("shadow_puff_large_front")
-                shadowpuff.Transform:SetPosition(pos.x, 0, pos.z)
-                shadowpuff.Transform:SetScale(0.7, 0.7, 0.7)			
-                SpawnPrefab("shadow_despawn").Transform:SetPosition(pos.x, 1, pos.z)
-                suckit(Item)
-                inst:DoTaskInTime(0, function(inst)
-                    SpawnPrefab("pandorachest_reset").Transform:SetPosition(inst.Transform:GetWorldPosition())
-                end)
-            end
+        if Item and canPickupItem(inst, Item) then
+            pickupItem(Item, Item:GetPosition())
         end
     end
 
