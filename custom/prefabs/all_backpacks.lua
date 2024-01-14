@@ -2,6 +2,30 @@ local DST = GLOBAL.TheSim.GetGameID ~= nil and GLOBAL.TheSim:GetGameID() == "DST
 
 local function DoNothing() end
 
+-- 保护不受动物攻击
+local function ProtectFromAnimal(inst, owner, animals)
+    local range = 6
+    local x, y, z = owner.Transform:GetWorldPosition()
+    local found = false
+
+    for _, tag in ipairs(animals) do
+        if #TheSim:FindEntities(x, y, z, range, {tag}) > 0 then
+            found = true
+            break
+        end
+    end
+
+    if found then
+        if owner.components.debuffable ~= nil then
+            owner.components.debuffable:AddDebuff("spawnprotectionbuff", "spawnprotectionbuff")
+        end
+    else
+        if owner.components.debuffable:HasDebuff("spawnprotectionbuff") then
+            owner.components.debuffable:RemoveDebuff("spawnprotectionbuff")
+        end
+    end
+end
+
 local function ModifyBackpack(inst)
     inst:AddTag("fridge")
 
@@ -37,10 +61,12 @@ local function ModifyBackpack(inst)
         owner.components.health:StartRegen(2, 1)
 
         if owner and owner.components.temperature then
-            if inst.temperatureTask then
-                inst.temperatureTask:Cancel()
+            if inst.periodTask then
+                inst.periodTask:Cancel()
             end
-            inst.temperatureTask = owner:DoPeriodicTask(.1, function(owner)
+            inst.periodTask = owner:DoPeriodicTask(.3, function(owner)
+                local animals = {"tallbird"}
+                ProtectFromAnimal(inst, owner, animals)
                 owner.components.temperature:SetTemperature(35)
             end)
         end
@@ -53,9 +79,9 @@ local function ModifyBackpack(inst)
         old_onunequip(inst, owner)
         owner.components.health:StopRegen()
 
-        if inst.temperatureTask then
-            inst.temperatureTask:Cancel()
-            inst.temperatureTask = nil
+        if inst.periodTask then
+            inst.periodTask:Cancel()
+            inst.periodTask = nil
         end
 
         owner:RemoveDebuff("hungerregenbuff")
