@@ -6,6 +6,10 @@ local function ModifyChest(inst, name)
     inst:AddTag("fridge")
     inst:AddTag("waterproofer")
     inst:AddComponent("waterproofer")
+    -- 禁止燃烧
+    if inst.components.burnable ~= nil then
+        inst:RemoveComponent("burnable")
+    end
     inst.components.waterproofer:SetEffectiveness(TUNING.WATERPROOFNESS_ABSOLUTE)
     
     if inst.components.workable then

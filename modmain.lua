@@ -63,7 +63,7 @@ AddPlayerPostInit(
 			TheScrapbookPartitions:DebugUnlockEverything()
 
             -- 移除特定物品
-            local itemsToRemove = { "boatfragment03", "boatfragment04", "boatfragment05" }
+            local itemsToRemove = { "boatfragment03", "boatfragment04", "boatfragment05", "spoiled_food" }
             for _, itemName in ipairs(itemsToRemove) do
                 local items = TheSim:FindEntities(0, 0, 0, 10000, { itemName })
                 for i, item in ipairs(items) do

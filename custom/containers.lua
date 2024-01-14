@@ -43,7 +43,7 @@ SetChest_160(params.shadowchester)
 params.shadow_container = deepcopy(params.shadowchester)
 params.shadow_container.widget.animbank = "ui_chest_8x20"
 params.shadow_container.widget.animbuild = "ui_chest_8x20"
-params.shadow_container.widget.animloop = true
+params.shadow_container.widget.animloop = false
 params.dragonflychest = params.shadowchester
 params.minotaurchest = params.shadowchester
 
