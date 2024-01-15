@@ -31,7 +31,7 @@ end
 
 -- 再加个吸尘器系统
 local VACUUM_RANGE = 10
-local VACUUM_PERIOD = 0.01
+local VACUUM_PERIOD = 0.1
 local BAN_LIST = {"bullkelp_beached", "spoiled_food", "mandrake", "cursed_monkey_token"}
 
 local function OnEnableHelper(inst)
@@ -74,6 +74,12 @@ AddPrefabPostInit("treasurechest", function(inst)
         inst.components.deployhelper.onenablehelper = OnEnableHelper
     end
 
+    inst:AddComponent("inventory") --箱子拥有物品栏属性（自动采集需要）
+    inst.components.inventory.maxslots = 0
+    inst.components.inventory.GetOverflowContainer = function(self)
+        return self.inst.components.container
+    end
+
     local function isItemValid(ent)
         return ent.components.inventoryitem 
         and ent.components.inventoryitem.canbepickedup 
@@ -81,18 +87,21 @@ AddPrefabPostInit("treasurechest", function(inst)
         and not table.contains(BAN_LIST, ent.prefab)
     end
 
-    local function pickupItem(item, pos)
+    local function createShadowEffect(inst, pos)
         -- Create a shadow effect
         local shadowpuff = SpawnPrefab("shadow_puff_large_front")
         shadowpuff.Transform:SetPosition(pos.x, 0, pos.z)
         shadowpuff.Transform:SetScale(0.7, 0.7, 0.7)            
         SpawnPrefab("shadow_despawn").Transform:SetPosition(pos.x, 1, pos.z)
-        -- Pickup item
         if inst.AnimState:IsCurrentAnimation("closed") or inst.AnimState:IsCurrentAnimation("close") then
             inst.AnimState:PlayAnimation("hit")
             inst.AnimState:PushAnimation("closed", false)
         end
         inst.SoundEmitter:PlaySound("dontstarve/wilson/chest_open")
+    end
+
+    local function pickupItem(inst, item, pos)
+        createShadowEffect(inst, pos)
         inst.components.container:GiveItem(item)
     end
 
@@ -105,13 +114,45 @@ AddPrefabPostInit("treasurechest", function(inst)
         return not inst.components.container:IsFull() or canStackItem
     end
     
+    local function autoHarvest(inst)
+        local x,y,z = inst.Transform:GetWorldPosition() 
+        local ents = TheSim:FindEntities(x,y,z, VACUUM_RANGE, nil, { "INLIMBO" }) 
+        for _, ent in pairs(ents) do 
+            if ent.components.pickable
+            and ent.components.pickable:CanBePicked()
+            and ent.components.pickable.droppicked == nil 
+            and (ent:HasTag("plant") and not ent.is_oversized) 
+            and canPickupItem(inst, ent) then
+                createShadowEffect(inst, ent:GetPosition())
+                ent.components.pickable:Pick(inst) 
+            end 
+    
+            if ent.components.harvestable
+            and ent.components.harvestable:CanBeHarvested()
+            and ent.components.harvestable.produce == ent.components.harvestable.maxproduce 
+            and canPickupItem(inst, ent) then
+                createShadowEffect(inst, ent:GetPosition())
+                ent.components.harvestable:Harvest(inst) 
+            end 
+    
+            if ent.components.dryer
+            and ent.components.dryer:IsDone()
+            and ent.components.dryer.ingredient == nil
+            and canPickupItem(inst, ent) then
+                createShadowEffect(inst, ent:GetPosition())
+                ent.components.dryer:Harvest(inst) 
+            end
+        end
+    end
 
     local function vacuum(inst)
         local Item = FindEntity(inst, VACUUM_RANGE, isItemValid, {"_inventoryitem"}, {"INLIMBO", "NOCLICK", "catchable", "fire", "trap", "minesprung", "mineactive"})
         
         if Item and canPickupItem(inst, Item) then
-            pickupItem(Item, Item:GetPosition())
+            pickupItem(inst, Item, Item:GetPosition())
         end
+
+        autoHarvest(inst)
     end
 
     inst:DoPeriodicTask(VACUUM_PERIOD, vacuum)

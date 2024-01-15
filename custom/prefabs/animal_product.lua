@@ -1,11 +1,29 @@
 local function AddPeriodicSpawnerToPrefab(prefab, spawnPrefab)
     AddPrefabPostInit(prefab, function(inst)
+        local function CheckEnvironment()
+            local x, y, z = inst.Transform:GetWorldPosition()
+            local nearbyEnts = TheSim:FindEntities(x, y, z, 10, nil, {"INLIMBO"})
+            
+            for _, ent in pairs(nearbyEnts) do
+                if ent:HasTag("wall") or ent:HasTag("chest") or ent:HasTag("player") then
+                    return true
+                end
+            end
+            return false
+        end
+
         if not inst.components.periodicspawner then
             inst:AddComponent("periodicspawner")
         end
         inst.components.periodicspawner:SetPrefab(spawnPrefab)
-        inst.components.periodicspawner:SetRandomTimes(10, 60)
-        inst.components.periodicspawner:Start()
+        inst:DoPeriodicTask(30, function()
+            local shouldSpawn = CheckEnvironment()
+            if shouldSpawn then
+                inst.components.periodicspawner:Start(0)
+            else
+                inst.components.periodicspawner:Stop()
+            end
+        end)
     end)
 end
 
