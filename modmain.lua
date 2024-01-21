@@ -1,6 +1,10 @@
 GLOBAL.setmetatable(env,{__index=function(t,k) return GLOBAL.rawget(GLOBAL,k) end})
 
 Assets = {
+    Asset("IMAGE", "images/archor.tex"),
+	Asset("ATLAS", "images/archor.xml"),
+    Asset("IMAGE", "images/mast.tex"),
+	Asset("ATLAS", "images/mast.xml"),
     Asset("ANIM", "anim/ui_chest_5x16.zip"),
     Asset("ANIM", "anim/ui_chest_8x20.zip"),
     Asset("ATLAS", "images/sack27.xml"),
@@ -9,6 +13,21 @@ Assets = {
 PrefabFiles = {
     "fire_wall",
 }
+
+GLOBAL.Mod = {
+    env = getfenv(1),
+    -- config = {
+    --     anchor_speed = GetModConfigData('anchor_speed'),
+    --     power_rudder = GetModConfigData('power_rudder'),
+    --     power_mast = GetModConfigData('power_mast'),
+    --     power_anchor = GetModConfigData('power_anchor'),
+    --     create_fish = GetModConfigData('create_fish'),
+    --     no_boat_leak = GetModConfigData('no_boat_leak'),
+    -- },
+}
+
+import = kleiloadlua(MODROOT .. "scripts/import.lua")()
+import("ui")
 
 modimport("custom/tuning")
 modimport("custom/recipes")                         -- 修改配方
@@ -75,3 +94,28 @@ AddPlayerPostInit(
     )
   end
 )
+
+local skilltreedefs = require "prefabs/skilltree_defs"
+AddPlayerPostInit(function(inst)
+	local skills = skilltreedefs.SKILLTREE_DEFS[inst.prefab]
+	local updater = inst.components.skilltreeupdater
+	if skills and updater then
+		updater.IsActivated = function(self, skill)
+			return skills[skill]
+		end
+		updater.HasSkillTag = function()
+			return true
+		end
+		local activated = updater.skilltree.activatedskills[inst.prefab] or {}
+		for skill, data in pairs(skills) do
+			if not data.lock_open and not activated[skill] then
+				if GLOBAL.TheNet:GetIsServer() then
+					updater:ActivateSkill_Server(skill)
+				end
+				if inst == GLOBAL.ThePlayer then
+					updater:ActivateSkill_Client(skill)
+				end
+			end
+		end
+	end
+end)

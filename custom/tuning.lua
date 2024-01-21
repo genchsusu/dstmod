@@ -228,6 +228,14 @@ local tuning = {
         {base=999*total_day_time, random=0},   --tall
     },
 
+    ANCHOR_DEPTH_TIMES = {
+        LAND = 0,
+        SHALLOW = 1,
+        BASIC = 2,
+        DEEP = 3,
+        VERY_DEEP = 4,
+    },
+    
     BOAT =
     {
         HEALTH = 200,
@@ -318,7 +326,6 @@ local tuning = {
             BASIC =
             {
                 MAX_VELOCITY_MOD = 0.15,
-                -- ANCHOR_DRAG = 2,
                 ANCHOR_DRAG = 5,
                 SAILFORCEDRAG = 0.8,
             },
@@ -328,17 +335,14 @@ local tuning = {
         {
             BASIC =
             {
-                MAX_VELOCITY = 2.5,
-                -- MAX_VELOCITY_MOD = 1.2,
-                SAIL_FORCE = 0.6,
+                MAX_VELOCITY = 25,
+                SAIL_FORCE = 10,
                 RUDDER_TURN_DRAG = 0.23,
             },
 
             MALBATROSS =
             {
-                -- MAX_VELOCITY = 4,
                 MAX_VELOCITY = 20,
-                -- SAIL_FORCE = 1.3,
                 SAIL_FORCE = 10,
                 RUDDER_TURN_DRAG = 0.23,
             },

@@ -1,8 +1,9 @@
--- local function countNearbyOceanFish(inst, range)
---     local x, y, z = inst.Transform:GetWorldPosition()
---     local entities = TheSim:FindEntities(x, y, z, range, {"oceanfish"}, {"INLIMBO"})
---     return #entities
--- end
+local function countFish(inst, range)
+    local x, y, z = inst.Transform:GetWorldPosition()
+    local ents = TheSim:FindEntities(x, y, z, range, {"oceanfish", "swimming"})
+    return #ents
+end
+
 local function isPlayerNearby(inst, range)
     local x, y, z = inst.Transform:GetWorldPosition()
     local players = TheSim:FindEntities(x, y, z, range, {"player"})
@@ -10,45 +11,43 @@ local function isPlayerNearby(inst, range)
 end
 
 local function createFish(inst)
-    -- local range = 20
-    -- if countNearbyOceanFish(inst, range) > 25 then
-    --     return false, "TOOMANYFISH"
-    -- end
+    if countFish(inst, 50) > 20 then
+        return false, "TOOMANYFISH"
+    end
+
     local range = 10
     if not isPlayerNearby(inst, range) then
         return false, "NOPLAYERSNEARBY"
     end
 
-    local schoolspawner = GLOBAL.TheWorld.components.schoolspawner
+    local schoolspawner = TheWorld.components.schoolspawner
     if schoolspawner == nil then
         return false, "NOWATERNEARBY"
     end
 
-    local FISH_SPAWN_OFFSET = 10
     local x, y, z = inst.Transform:GetWorldPosition()
-    local delta_theta = GLOBAL.PI2 / 18
     local failed_spawn = 0
 
     for i=1, TUNING.BOOK_FISH_AMOUNT do
-        local theta = math.random() * 2 * GLOBAL.PI
-        local failed_attempts = 0
-        local max_failed_attempts = 36
+        local angle = math.random() * 2 * PI
+        local spawn_success = false
 
-        while failed_attempts < max_failed_attempts do
-            local spawn_offset = GLOBAL.Vector3(math.random(1,3), 0, math.random(1,3))
-            local spawn_point = GLOBAL.Vector3(x + math.cos(theta) * FISH_SPAWN_OFFSET, 0, z + math.sin(theta) * FISH_SPAWN_OFFSET)
+        -- Try to spawn the fish in a circle around the boat, starting at a random angle
+        for attempt = 1, 36 do
+            local spawn_point = Vector3(x + math.cos(angle) * 10, 0, z + math.sin(angle) * 10)
+            local spawn_offset = Vector3(math.random(1,3), 0, math.random(1,3))
             local num_fish_spawned = schoolspawner:SpawnSchool(spawn_point, nil, spawn_offset)
             
-            if num_fish_spawned == nil or num_fish_spawned == 0 then
-                theta = theta + delta_theta
-                failed_attempts = failed_attempts + 1
-
-                if failed_attempts >= max_failed_attempts then
-                    failed_spawn = failed_spawn + 1
-                end
-            else -- Success
+            if num_fish_spawned and num_fish_spawned > 0 then
+                spawn_success = true
                 break
+            else
+                angle = angle + (PI2 / 18)
             end
+        end
+
+        if not spawn_success then
+            failed_spawn = failed_spawn + 1
         end
     end
 
@@ -84,3 +83,12 @@ AddPrefabPostInit("boat_pirate", function(inst)
     inst.components.health:SetMaxHealth(1)
 end)
 
+local items = {"mast", "mast_malbatross", "oar", "oar_driftwood", "anchor", "steeringwheel", "boat_rotator"}
+
+for _, item in ipairs(items) do
+    AddPrefabPostInit(item, function(inst)
+        if inst.components.burnable ~= nil then
+            inst:RemoveComponent("burnable")
+        end
+    end)
+end
