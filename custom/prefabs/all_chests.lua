@@ -67,6 +67,24 @@ local function OnEnableHelper(inst)
     end
 end
 
+local pick_list = {
+    "berrybush_juicy",
+	"bullkelp_plant",
+}
+
+for k, v in pairs(pick_list) do  
+    AddPrefabPostInit(v, function(inst)
+        if not TheWorld.ismastersim then
+            return inst
+        end
+
+        inst:AddTag("plant_can_pick")
+        if inst.components.pickable ~= nil then 
+            inst.components.pickable.droppicked = nil
+        end 
+    end)
+end
+
 AddPrefabPostInit("treasurechest", function(inst) 
     -- Dedicated server does not need deployhelper
     if not GLOBAL.TheNet:IsDedicated() then
@@ -121,7 +139,7 @@ AddPrefabPostInit("treasurechest", function(inst)
             if ent.components.pickable
             and ent.components.pickable:CanBePicked()
             and ent.components.pickable.droppicked == nil 
-            and (ent:HasTag("plant") and not ent.is_oversized) 
+            and ((ent:HasTag("plant") or ent:HasTag("plant_can_pick")) and not ent.is_oversized) 
             and canPickupItem(inst, ent) then
                 createShadowEffect(inst, ent:GetPosition())
                 ent.components.pickable:Pick(inst) 

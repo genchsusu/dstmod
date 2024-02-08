@@ -106,8 +106,4 @@ Y/U根据游戏语言输入#复活/#resurrect 进行复活
 ```
 
 TODO 
-魔术箱子仍然没有动画
 evergreens
-farm_plants
-farm_plow
-weed_plants

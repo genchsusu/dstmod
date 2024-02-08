@@ -15,6 +15,10 @@ local tuning = {
     STACK_SIZE_SMALLITEM = 999,
     STACK_SIZE_TINYITEM = 999,
 
+    --大树干和普通树干遮阴范围
+    SHADE_CANOPY_RANGE_SMALL = 80,
+    SHADE_CANOPY_RANGE = 100,
+
     -- 复活
     PORTAL_HEALTH_PENALTY = 1,
 

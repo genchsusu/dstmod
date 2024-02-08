@@ -1,4 +1,5 @@
-GLOBAL.setmetatable(env,{__index=function(t,k) return GLOBAL.rawget(GLOBAL,k) end})
+-- Init utils
+modimport("scripts/waffles")
 
 Assets = {
     Asset("IMAGE", "images/archor.tex"),
@@ -11,7 +12,6 @@ Assets = {
 }
 
 PrefabFiles = {
-    "fire_wall",
 }
 
 GLOBAL.Mod = {
@@ -54,6 +54,7 @@ modimport("custom/prefabs/rock_avocado_bush")       -- 修改rock_avocado_bush
 
 modimport("custom/prefabs/bananabush")              -- 修改香蕉树
 -- modimport("custom/prefabs/evergreens")              -- 修改evergreens
+modimport("custom/prefabs/scarecrow")               -- 稻草人防鸟
 modimport("custom/containers")                      -- 修改箱子大小
 modimport("custom/prefabs/all_backpacks")           -- 修改背包
 modimport("custom/prefabs/all_chests")              -- 修改箱子
@@ -65,11 +66,12 @@ modimport("custom/prefabs/stack_ui_fix")            -- 修复堆叠UI Bug
 
 modimport("custom/resurrect")                       -- 打字复活
 modimport("custom/auto_stack")                      -- 自动堆叠
-modimport("custom/prefabs/fire")                    -- 火焰保护圈
 
 modimport("custom/prefabs/mermking")                -- 修改鱼人国王
 
 modimport("custom/show_fish")                       -- 海吊杆显示鱼群信息
+modimport("custom/brains/brains")                   -- 修改生物行为
+
 -- modimport("custom/prefabs/")       -- 修改
 
 -- 解锁全图鉴

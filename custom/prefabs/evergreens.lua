@@ -1,28 +1,36 @@
-local function ModifyTreeLoot(inst)
-    -- print("Modifying tree loot for: " .. inst.prefab)
+-- local trees = {
+--     "evergreen", "evergreen_short", "evergreen_normal", "evergreen_tall",
+--     "evergreen_sparse", "evergreen_sparse_short", "evergreen_sparse_normal", "evergreen_sparse_tall"
+-- }
 
-    local oldOnBurntFn = inst.components.burnable.onburnt
-    inst.components.burnable:SetOnBurntFn(function(inst)
-        oldOnBurntFn(inst)
-        -- print("Burnt: " .. inst.prefab)
+-- for _, tree in ipairs(trees) do
+--     AddPrefabPostInit(tree, function(inst)
+--         -- Modify loot
+--         local function modify_loot(old_loot)
+--             local num = 10
+--             local new_loot = {}
+--             for _, item in ipairs(old_loot) do
+--                 for i = 1, num do
+--                     table.insert(new_loot, item)
+--                 end
+--             end
+--             return new_loot
+--         end
 
-        local charcoal_number = 10
-        for i = 1, charcoal_number do
-            inst.components.lootdropper:SpawnLootPrefab("charcoal")
-        end
-    end)
-
-    if inst.components.lootdropper then
-        -- print("Setting loot for: " .. inst.prefab)
-        inst.components.lootdropper:SetLoot({"log", "log", "log", "log", "log", "log", "log", "log", "log", "log", "pinecone", "pinecone"})
-    end
-end
-
-local trees = {
-    "evergreen", "evergreen_short", "evergreen_normal", "evergreen_tall",
-    "evergreen_sparse", "evergreen_sparse_short", "evergreen_sparse_normal", "evergreen_sparse_tall"
-}
-
-for _, tree in ipairs(trees) do
-    AddPrefabPostInit(tree, ModifyTreeLoot)
-end
+--         -- Get builds
+--         local builds
+--         local i, builds, _name = 0, nil, ""
+--         while _name ~= "builds" do
+--             i = i + 1
+--             _name, builds = debug.getupvalue(inst.OnLoad, i)
+--         end
+--         if type(builds) == "table" then
+--             if builds and builds[inst.build] then
+--                 local build = builds[inst.build]
+--                 build.normal_loot = modify_loot(build.normal_loot)
+--                 build.short_loot = modify_loot(build.short_loot)
+--                 build.tall_loot = modify_loot(build.short_loot)
+--             end
+--         end
+--     end)
+-- end
