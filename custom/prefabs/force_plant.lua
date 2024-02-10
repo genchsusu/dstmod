@@ -6,6 +6,7 @@ local function CreateDeployableItemFn(prefabToSpawn)
                 GLOBAL.SpawnPrefab(prefabToSpawn).Transform:SetPosition(pt:Get())
                 item.components.stackable:Get():Remove()
             end
+            inst.components.deployable:SetDeploySpacing(DEPLOYSPACING["NONE"])
         end
     end
 end

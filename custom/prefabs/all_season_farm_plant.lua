@@ -1,3 +1,11 @@
+--------------------------------------------------------------------------
+--[[ all_season_farm_plant ]]
+--------------------------------------------------------------------------
+-- Configs
+local enable_quick_grow = GetModConfigData('enable_quick_grow')
+local enable_replant = GetModConfigData('enable_replant')
+local always_oversized = GetModConfigData('always_oversized')
+--------------------------------------------------------------------------
 local PlantDefs = require("prefabs/farm_plant_defs").PLANT_DEFS
 local all_seasons = {autumn = true, winter = true, spring = true, summer = true}
 local State = {seed = true, sprout = true, small = true, med = true}
@@ -12,32 +20,36 @@ local function DoModification(prefab)
         if inst.components.growable and inst.components.growable.stages then
             local stages = deepcopy(inst.components.growable.stages)
 
-            for _, v in pairs(stages) do
-                if v.name and State[v.name] then
-                    v.time = function(inst) return 0 end
+            if enable_quick_grow then
+                for _, v in pairs(stages) do
+                    if v.name and State[v.name] then
+                        v.time = function(inst) return 0 end
+                    end
                 end
-            end
+            end 
 
             -- Replant
-            local MakePickableFunc, _ = Waffles.FindUpvalue(stages[1].fn, "MakePickable")
-            local _, index = Waffles.FindUpvalue(MakePickableFunc, "OnPicked")
-            if index then
-                local function OnPicked(inst, doer)
-                    local x, y, z = inst.Transform:GetWorldPosition()
-                    if TheWorld.Map:GetTileAtPoint(x, y, z) == WORLD_TILES.FARMING_SOIL then
-                        local soil = SpawnPrefab("farm_soil")
-                        soil.Transform:SetPosition(x, y, z)
-                        soil:PushEvent("breaksoil")
+            if enable_replant then
+                local MakePickableFunc, _ = Waffles.FindUpvalue(stages[1].fn, "MakePickable")
+                local _, index = Waffles.FindUpvalue(MakePickableFunc, "OnPicked")
+                if index then
+                    local function OnPicked(inst, doer)
+                        local x, y, z = inst.Transform:GetWorldPosition()
+                        if TheWorld.Map:GetTileAtPoint(x, y, z) == WORLD_TILES.FARMING_SOIL then
+                            local soil = SpawnPrefab("farm_soil")
+                            soil.Transform:SetPosition(x, y, z)
+                            soil:PushEvent("breaksoil")
+                        end
+                    
+                        local plant_name = "farm_plant_" .. inst.plant_def.product
+                        local new_plant = SpawnPrefab(plant_name)
+                        if new_plant ~= nil then
+                            new_plant.Transform:SetPosition(inst.Transform:GetWorldPosition())
+                        end
                     end
-                
-                    local plant_name = "farm_plant_" .. inst.plant_def.product
-                    local new_plant = SpawnPrefab(plant_name)
-                    if new_plant ~= nil then
-                        new_plant.Transform:SetPosition(inst.Transform:GetWorldPosition())
-                    end
-                end
-                Waffles.SetUpvalue(MakePickableFunc, index, OnPicked)
-            end  
+                    debug.setupvalue(MakePickableFunc, index, OnPicked)
+                end  
+            end
 
             -- growth
             local old_grow_fn = stages[6].fn
@@ -77,9 +89,11 @@ local function DoModification(prefab)
         end
 
         -- Remove stress
-        inst.components.farmplantstress.stressors = {}
-        inst.components.farmplantstress.stressors_testfns = {}
-        inst.components.farmplantstress.stressor_fns = {}
+        if always_oversized then
+            inst.components.farmplantstress.stressors = {}
+            inst.components.farmplantstress.stressors_testfns = {}
+            inst.components.farmplantstress.stressor_fns = {}
+        end
     end)
 end
 

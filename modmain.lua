@@ -37,7 +37,9 @@ modimport("custom/prefabs/friendlyfruitfly")        -- 果蝇强化
 modimport("custom/prefabs/infiniteuses")            -- 无限耐久
 modimport("custom/components/boatphysics")          -- 船最大转向速度
 modimport("custom/prefabs/force_plant")             -- 强制种植无法种植的植物
-modimport("custom/prefabs/animal_product")          -- 鸡生蛋, 兔子掉毛,
+if GetModConfigData('enable_animal_product') then
+    modimport("custom/prefabs/animal_product")          -- 鸡生蛋, 兔子掉毛,
+end
 modimport("custom/prefabs/pond")                    -- 池塘长曼德拉草
 modimport("custom/prefabs/soil_amender")            -- soil_amender可堆叠
 modimport("custom/prefabs/walls")                   -- 无敌城墙

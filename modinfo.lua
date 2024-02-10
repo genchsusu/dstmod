@@ -1,6 +1,9 @@
+local function e_or_z(en, zh)
+	return (locale == "zh" or locale == "zhr" or locale == "zht") and zh or en
+end
 name = "Gin's Mod"
 author = "OpenSource"
-version = "1.0.1"
+version = "1.0.3"
 
 description = [[
 个人mod合集:
@@ -32,4 +35,93 @@ all_clients_require_mod = true
 
 priority = 0.1
 
-configuration_options = {}
+local function header(label, client)
+	return { name = "", label = label, options = { { description = "", data = "" } }, default = "", client = client }
+end
+
+local function AddConfig(label, name, hover, options, default)
+	return {
+		label = label,
+		name = name,
+		hover = hover or '',
+		options = options or {
+			{description = e_or_z("On", "开启"), data = true},
+			{description = e_or_z("Off", "关闭"), data = false},
+		},
+		default = default
+	}
+end
+
+configuration_options = {
+    header(e_or_z("Containers", "容器类")),
+
+    AddConfig(
+        e_or_z("Backpacks Plus", "背包变态功能"), 
+        "backpacks_plus_function", 
+        e_or_z("Insulation, Protect from Tallbirds, Brain Boost, No Hunger", "保温。防高脚鸟。补脑。不会饥饿。"),
+        nil, 
+        false
+    ),
+    {	
+		name = "backpacks_armor",
+		label = e_or_z("Armor", "护甲"),
+		hover = e_or_z("Set the armor rate of the backpacks", "设置背包的护甲"),
+		options =
+		{
+            { description = e_or_z("Off", "禁用"), data = false },
+            { description = "60%", data = 0.6 },
+            { description = "75%", data = 0.75 },
+            { description = "90%", data = 0.9 },
+            { description = "100%", data = 1.0 },
+		},
+		default = 0.6,
+	},
+    {	
+		name = "backpacks_light_range",
+		label = e_or_z("Light Range", "灯光范围"),
+		hover = e_or_z("Set the light range of the backpacks", "设置背包的灯光范围"),
+		options =
+		{
+            { description = e_or_z("Tiny", "仅保命"), data = 0.5 },
+            { description = e_or_z("Small", "小"), data = 1 },
+            { description = e_or_z("Medium", "中"), data = 2 },
+            { description = e_or_z("Large", "大"), data = 4 },
+		},
+		default = 0.5,
+	},
+    {	
+		name = "chest_vaccum",
+		label = e_or_z("Vaccum and Pick", "箱子吸纳和采集功能"),
+		hover = e_or_z("Set the vaccum/pick range of the treasurechest", "设置箱子的吸收和采集范围"),
+		options =
+		{
+            { description = e_or_z("Off", "禁用"), data = false },
+            { description = "5", data = 5 },
+            { description = "10", data = 10 },
+            { description = "20", data = 20 },
+		},
+		default = false,
+	},
+
+    header(e_or_z("Plants", "种植类")),
+
+    AddConfig(e_or_z("Quick Farm Plant", "快速种植"), "enable_quick_grow", e_or_z("Enable quick grow for farm plants.", "启用农场植物的快速生长。"), nil, false),
+    AddConfig(e_or_z("Replant at Original Position", "原位置重新种植"), "enable_replant", e_or_z("Replant at original position after picking.", "在采摘后在原有位置重新种植。"), nil, false),
+    AddConfig(e_or_z("Always Oversized Plant", "总是超重植物"), "always_oversized", e_or_z("Always oversized plant.", "总是超重植物。"), nil, false),
+
+    header(e_or_z("Others", "其他类")),
+
+    AddConfig(e_or_z("Periodic Resource Spawning", "动物定期生成资源"), "enable_animal_product", e_or_z("Enable spawning of specific items from animals.", "启用动物定期生成物品。"), nil, false),
+    {	
+		name = "fishingrod_time",
+		label = e_or_z("fishingrod time", "淡水钓鱼时间"),
+		hover = e_or_z("Set the fishingrod time", "设置淡水钓鱼时间"),
+		options =
+		{
+            { description = e_or_z("Immediately", "瞬间"), data = 0 },
+            { description = "3s", data = 3 },
+            { description = "6s", data = 6 },
+		},
+		default = 3,
+	},
+}

@@ -1,3 +1,11 @@
+--------------------------------------------------------------------------
+--[[ all_backpacks ]]
+--------------------------------------------------------------------------
+-- Configs
+local backpacks_plus_function = GetModConfigData('backpacks_plus_function') -- "保温。防高脚鸟。补脑。不会饥饿。"
+local backpacks_armor = GetModConfigData('backpacks_armor')
+local backpacks_light_range = GetModConfigData('backpacks_light_range')
+--------------------------------------------------------------------------
 local DST = GLOBAL.TheSim.GetGameID ~= nil and GLOBAL.TheSim:GetGameID() == "DST"
 
 local function DoNothing() end
@@ -32,14 +40,6 @@ local function ProtectFromAnimal(inst, owner, animals)
     end
 end
 
-local TEMPERATURE_MULT =
-{
-	autumn = 0.5,
-    winter = -2,
-	spring = 0.5,
-	summer = 2,
-}
-
 local function ModifyBackpack(inst)
     inst:AddTag("fridge")
 
@@ -50,45 +50,51 @@ local function ModifyBackpack(inst)
 
     inst.components.waterproofer:SetEffectiveness(TUNING.WATERPROOFNESS_ABSOLUTE)
 
-    inst.entity:AddLight()
-    inst.Light:SetRadius(4)
-    inst.Light:SetFalloff(0.5)
-    inst.Light:SetIntensity(0.8)
-    inst.Light:SetColour(255 / 255, 230 / 255, 150 / 255)
+    if backpacks_light_range then
+        inst.entity:AddLight()
+        inst.Light:SetRadius(backpacks_light_range)
+        inst.Light:SetFalloff(0.5)
+        inst.Light:SetIntensity(0.8)
+        inst.Light:SetColour(255 / 255, 230 / 255, 150 / 255)
+    end
 
-    
-    inst:AddComponent("armor")
-    inst.components.armor:InitCondition(TUNING.ARMORRUINS, 0.80)
+    if backpacks_armor then
+        inst:AddComponent("armor")
+        inst.components.armor:InitCondition(TUNING.ARMORRUINS, backpacks_armor)
 
-    inst:AddTag("Infinite")
-    if DST then inst:AddTag("hide_percentage") end
-    inst.components.armor.SetCondition = DoNothing
+        inst:AddTag("Infinite")
+        if DST then inst:AddTag("hide_percentage") end
+        inst.components.armor.SetCondition = DoNothing
+    end
     inst.components.equippable.walkspeedmult = 2
 
-    inst.components.equippable.dapperness = 15.1515
-    inst.components.equippable.insulated = true
-
-    inst.insulation = -25 * (TEMPERATURE_MULT[TheWorld.state.season] or 1)
+    if backpacks_plus_function then
+        inst.components.equippable.dapperness = 15.1515
+        inst.components.equippable.insulated = true
+    end
 
     local old_onequip = inst.components.equippable.onequipfn
     inst.components.equippable:SetOnEquip(function(inst, owner)
         old_onequip(inst, owner)
-        inst.Light:Enable(true)
+        if backpacks_light_range then inst.Light:Enable(true) end
         owner.components.health:StartRegen(2, 1)
 
-        if owner and owner.components.temperature then
-            if inst.periodTask then
-                inst.periodTask:Cancel()
+        if backpacks_plus_function then
+            if owner and owner.components.temperature then
+                if inst.periodTask then
+                    inst.periodTask:Cancel()
+                end
+    
+                inst.periodTask = owner:DoPeriodicTask(.3, function(owner)
+                    local animals = {"tallbird"}
+                    ProtectFromAnimal(inst, owner, animals)
+                    inst.insulation = 25 - TheWorld.state.temperature
+                    owner.components.temperature:SetModifier("backpacks", inst.insulation)
+                end)
             end
-
-            owner.components.temperature:SetModifier("backpacks", inst.insulation)
-            inst.periodTask = owner:DoPeriodicTask(.3, function(owner)
-                local animals = {"tallbird"}
-                ProtectFromAnimal(inst, owner, animals)
-            end)
+    
+            owner:AddDebuff("hungerregenbuff", "hungerregenbuff")
         end
-
-        owner:AddDebuff("hungerregenbuff", "hungerregenbuff")
     end)
 
     local old_onunequip = inst.components.equippable.onunequipfn
@@ -104,15 +110,18 @@ local function ModifyBackpack(inst)
         if owner and owner.components.temperature then
             owner.components.temperature:SetModifier("backpacks", nil)
         end
-        owner:RemoveDebuff("hungerregenbuff")
 
+        if backpacks_plus_function then
+            owner:RemoveDebuff("hungerregenbuff")
+        end
+        
         if owner.components.foodmemory ~= nil then
             owner.components.foodmemory:RememberFood("hungerregenbuff")
         end
     end)
 
     inst:ListenForEvent("ondropped", function(inst)
-        inst.Light:Enable(true)
+        if backpacks_light_range then inst.Light:Enable(true) end
     end)
 end
 

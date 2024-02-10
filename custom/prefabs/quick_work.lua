@@ -73,7 +73,8 @@ end
 -- 淡水钓鱼
 local function QuickFishing(inst)
     if inst.components.fishingrod then
-        inst.components.fishingrod:SetWaitTimes(0, 0)
+        local fishingrod_time = GetModConfigData("fishingrod_time") or 0
+        inst.components.fishingrod:SetWaitTimes(fishingrod_time, fishingrod_time)
     end
 end
 AddPrefabPostInit("fishingrod", QuickFishing)
