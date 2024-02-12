@@ -152,33 +152,39 @@ AddPrefabPostInit("farm_plow", function(inst)
     if inst.components.terraformer ~= nil then
         local old_OnTerraform = inst.components.terraformer.onterraformfn
         local FinishedFunc, _ = Waffles.FindUpvalue(old_OnTerraform, "Finished")
-        inst.components.terraformer.onterraformfn = function(inst, pt, old_tile_type, old_tile_turf_prefab)
-            local cx, cy, cz = TheWorld.Map:GetTileCenterPoint(pt:Get())
-        
-            -- Deploy the 3 x 3 grid of farm soil
-            local gridSize = 3
-            local offset = (gridSize - 1) * 1.25 / 2
-        
-            for dx = -offset, offset, 1.25 do
-                for dz = -offset, offset, 1.25 do
-                    SpawnPrefab("farm_soil").Transform:SetPosition(cx + dx, cy, cz + dz)
+        if FinishedFunc ~= nil then
+            inst.components.terraformer.onterraformfn = function(inst, pt, old_tile_type, old_tile_turf_prefab)
+                local cx, cy, cz = TheWorld.Map:GetTileCenterPoint(pt:Get())
+            
+                -- Deploy the 3 x 3 grid of farm soil
+                local gridSize = 3
+                local offset = (gridSize - 1) * 1.25 / 2
+            
+                for dx = -offset, offset, 1.25 do
+                    for dz = -offset, offset, 1.25 do
+                        SpawnPrefab("farm_soil").Transform:SetPosition(cx + dx, cy, cz + dz)
+                    end
                 end
+                FinishedFunc(inst)
             end
-            FinishedFunc(inst)
-        end 
+        end
     end
 
     -- Rewrite the dirt_anim function
-    local DoDrillingFunc, _ = Waffles.FindUpvalue(inst.OnLoadPostPass, "DoDrilling")
-    if DoDrillingFunc then
-        local _, index = Waffles.FindUpvalue(DoDrillingFunc, "dirt_anim")
-        local dirt_anim = function(inst, quad, timer)
-            local t = math.min(1, timer/(TUNING.FARM_PLOW_DRILLING_DURATION))
-            local duration_delay = Lerp(TUNING.FARM_PLOW_DRILLING_DIRT_DELAY_BASE_START, TUNING.FARM_PLOW_DRILLING_DIRT_DELAY_BASE_END, t)
-            local delay = duration_delay + math.random() * TUNING.FARM_PLOW_DRILLING_DIRT_DELAY_VAR
-        
-            inst:DoTaskInTime(delay, dirt_anim, quad, timer + delay)
+    if inst.OnLoadPostPass ~= nil then
+        local DoDrillingFunc, _ = Waffles.FindUpvalue(inst.OnLoadPostPass, "DoDrilling")
+        if DoDrillingFunc then
+            local _, index = Waffles.FindUpvalue(DoDrillingFunc, "dirt_anim")
+            if index then
+                local dirt_anim = function(inst, quad, timer)
+                    local t = math.min(1, timer/(TUNING.FARM_PLOW_DRILLING_DURATION))
+                    local duration_delay = Lerp(TUNING.FARM_PLOW_DRILLING_DIRT_DELAY_BASE_START, TUNING.FARM_PLOW_DRILLING_DIRT_DELAY_BASE_END, t)
+                    local delay = duration_delay + math.random() * TUNING.FARM_PLOW_DRILLING_DIRT_DELAY_VAR
+                
+                    inst:DoTaskInTime(delay, dirt_anim, quad, timer + delay)
+                end
+                Waffles.SetUpvalue(DoDrillingFunc, index, dirt_anim)
+            end
         end
-        Waffles.SetUpvalue(DoDrillingFunc, index, dirt_anim)
     end
 end)

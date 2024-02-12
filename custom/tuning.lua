@@ -289,7 +289,7 @@ local tuning = {
                 ROW_FAIL_WEAR = 25,
                 ATTACKWEAR = 25,
                 USES = 500,
-                MAX_VELOCITY = 2,
+                MAX_VELOCITY = 10,
             },
 
             DRIFTWOOD =
