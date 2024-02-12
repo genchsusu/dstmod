@@ -149,21 +149,23 @@ end
 -- farm_plow_item
 AddPrefabPostInit("farm_plow", function(inst)
     -- Rewrite the OnTerraform function
-    local old_OnTerraform = inst.components.terraformer.onterraformfn
-    local FinishedFunc, _ = Waffles.FindUpvalue(old_OnTerraform, "Finished")
-    inst.components.terraformer.onterraformfn = function(inst, pt, old_tile_type, old_tile_turf_prefab)
-        local cx, cy, cz = TheWorld.Map:GetTileCenterPoint(pt:Get())
-    
-        -- Deploy the 3 x 3 grid of farm soil
-        local gridSize = 3
-        local offset = (gridSize - 1) * 1.25 / 2
-    
-        for dx = -offset, offset, 1.25 do
-            for dz = -offset, offset, 1.25 do
-                SpawnPrefab("farm_soil").Transform:SetPosition(cx + dx, cy, cz + dz)
+    if inst.components.terraformer ~= nil then
+        local old_OnTerraform = inst.components.terraformer.onterraformfn
+        local FinishedFunc, _ = Waffles.FindUpvalue(old_OnTerraform, "Finished")
+        inst.components.terraformer.onterraformfn = function(inst, pt, old_tile_type, old_tile_turf_prefab)
+            local cx, cy, cz = TheWorld.Map:GetTileCenterPoint(pt:Get())
+        
+            -- Deploy the 3 x 3 grid of farm soil
+            local gridSize = 3
+            local offset = (gridSize - 1) * 1.25 / 2
+        
+            for dx = -offset, offset, 1.25 do
+                for dz = -offset, offset, 1.25 do
+                    SpawnPrefab("farm_soil").Transform:SetPosition(cx + dx, cy, cz + dz)
+                end
             end
-        end
-        FinishedFunc(inst)
+            FinishedFunc(inst)
+        end 
     end
 
     -- Rewrite the dirt_anim function

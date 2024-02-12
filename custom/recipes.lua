@@ -1,5 +1,3 @@
-GLOBAL.setmetatable(env,{__index=function(t,k) return GLOBAL.rawget(GLOBAL,k) end})
-
 Recipe2("rope",                        {Ingredient("cutgrass", 3)},                                                  TECH.SCIENCE_ONE,   {numtogive = 20})
 Recipe2("boards",                      {Ingredient("log", 4)},                                                       TECH.SCIENCE_ONE,   {numtogive = 20})
 Recipe2("cutstone",                    {Ingredient("rocks", 3)},                                                     TECH.SCIENCE_ONE,   {numtogive = 20})

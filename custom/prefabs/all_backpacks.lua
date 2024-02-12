@@ -66,59 +66,62 @@ local function ModifyBackpack(inst)
         if DST then inst:AddTag("hide_percentage") end
         inst.components.armor.SetCondition = DoNothing
     end
-    inst.components.equippable.walkspeedmult = 2
 
-    if backpacks_plus_function then
-        inst.components.equippable.dapperness = 15.1515
-        inst.components.equippable.insulated = true
-    end
-
-    local old_onequip = inst.components.equippable.onequipfn
-    inst.components.equippable:SetOnEquip(function(inst, owner)
-        old_onequip(inst, owner)
-        if backpacks_light_range then inst.Light:Enable(true) end
-        owner.components.health:StartRegen(2, 1)
+    if inst.components.equippable ~= nil then
+        inst.components.equippable.walkspeedmult = 2
 
         if backpacks_plus_function then
-            if owner and owner.components.temperature then
-                if inst.periodTask then
-                    inst.periodTask:Cancel()
-                end
+            inst.components.equippable.dapperness = 15.1515
+            inst.components.equippable.insulated = true
+        end
     
-                inst.periodTask = owner:DoPeriodicTask(.3, function(owner)
-                    local animals = {"tallbird"}
-                    ProtectFromAnimal(inst, owner, animals)
-                    inst.insulation = 25 - TheWorld.state.temperature
-                    owner.components.temperature:SetModifier("backpacks", inst.insulation)
-                end)
+        local old_onequip = inst.components.equippable.onequipfn
+        inst.components.equippable:SetOnEquip(function(inst, owner)
+            old_onequip(inst, owner)
+            if backpacks_light_range then inst.Light:Enable(true) end
+            owner.components.health:StartRegen(2, 1)
+    
+            if backpacks_plus_function then
+                if owner and owner.components.temperature then
+                    if inst.periodTask then
+                        inst.periodTask:Cancel()
+                    end
+        
+                    inst.periodTask = owner:DoPeriodicTask(.3, function(owner)
+                        local animals = {"tallbird"}
+                        ProtectFromAnimal(inst, owner, animals)
+                        inst.insulation = 25 - TheWorld.state.temperature
+                        owner.components.temperature:SetModifier("backpacks", inst.insulation)
+                    end)
+                end
+        
+                owner:AddDebuff("hungerregenbuff", "hungerregenbuff")
+            end
+        end)
+    
+        local old_onunequip = inst.components.equippable.onunequipfn
+        inst.components.equippable:SetOnUnequip(function(inst, owner)
+            old_onunequip(inst, owner)
+            owner.components.health:StopRegen()
+    
+            if inst.periodTask then
+                inst.periodTask:Cancel()
+                inst.periodTask = nil
             end
     
-            owner:AddDebuff("hungerregenbuff", "hungerregenbuff")
-        end
-    end)
-
-    local old_onunequip = inst.components.equippable.onunequipfn
-    inst.components.equippable:SetOnUnequip(function(inst, owner)
-        old_onunequip(inst, owner)
-        owner.components.health:StopRegen()
-
-        if inst.periodTask then
-            inst.periodTask:Cancel()
-            inst.periodTask = nil
-        end
-
-        if owner and owner.components.temperature then
-            owner.components.temperature:SetModifier("backpacks", nil)
-        end
-
-        if backpacks_plus_function then
-            owner:RemoveDebuff("hungerregenbuff")
-        end
-        
-        if owner.components.foodmemory ~= nil then
-            owner.components.foodmemory:RememberFood("hungerregenbuff")
-        end
-    end)
+            if owner and owner.components.temperature then
+                owner.components.temperature:SetModifier("backpacks", nil)
+            end
+    
+            if backpacks_plus_function then
+                owner:RemoveDebuff("hungerregenbuff")
+            end
+            
+            if owner.components.foodmemory ~= nil then
+                owner.components.foodmemory:RememberFood("hungerregenbuff")
+            end
+        end)
+    end
 
     inst:ListenForEvent("ondropped", function(inst)
         if backpacks_light_range then inst.Light:Enable(true) end

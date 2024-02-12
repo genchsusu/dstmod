@@ -12,7 +12,7 @@ local function ModifyChest(inst, name)
     end
     inst.components.waterproofer:SetEffectiveness(TUNING.WATERPROOFNESS_ABSOLUTE)
     
-    if inst.components.workable then
+    if inst.components.workable ~= nil then
         local old_Destroy = inst.components.workable.Destroy
         function inst.components.workable:Destroy(destroyer)
             if destroyer.components.playercontroller == nil then return	end
@@ -122,7 +122,9 @@ if chest_vacuum then
 
         local function pickupItem(inst, item, pos)
             createShadowEffect(inst, pos)
-            inst.components.container:GiveItem(item)
+            if inst.components.container ~= nil then
+                inst.components.container:GiveItem(item)
+            end
         end
 
         local function canPickupItem(inst, item)

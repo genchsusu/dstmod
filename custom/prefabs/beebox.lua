@@ -7,13 +7,17 @@ local levels =
 }
 
 local function Start(inst)
-    inst.components.harvestable:StartGrowing()
-    inst.components.childspawner:StartSpawning()
+    if inst.components.harvestable ~= nil and inst.components.childspawner ~= nil then
+        inst.components.harvestable:StartGrowing()
+        inst.components.childspawner:StartSpawning()
+    end
 end
 
 local function Grow(inst)
-    inst.components.harvestable:SetGrowTime(1)
-    inst.components.harvestable:StartGrowing()
+    if inst.components.harvestable ~= nil then
+        inst.components.harvestable:SetGrowTime(1)
+        inst.components.harvestable:StartGrowing()
+    end
 end
 
 local function setlevel(inst, level)
@@ -41,7 +45,7 @@ end
 
 local function onharvest(inst, picker, produce)
     if not inst:HasTag("burnt") then
-        if inst.components.harvestable then
+        if inst.components.harvestable ~= nil then
             inst.components.harvestable:SetGrowTime(nil)
             inst.components.harvestable.pausetime = nil
             inst.components.harvestable:StopGrowing()
@@ -54,8 +58,9 @@ local function onharvest(inst, picker, produce)
 end
 
 local function ModifyBeeboxPrefab(inst)
-
-    inst.components.harvestable:SetUp("honey", 999, nil, onharvest, updatelevel)
+    if inst.components.harvestable ~= nil then
+        inst.components.harvestable:SetUp("honey", 999, nil, onharvest, updatelevel)
+    end
     GLOBAL.WorldSettings_ChildSpawner_SpawnPeriod(inst, 1, TUNING.BEEBOX_ENABLED)
     GLOBAL.WorldSettings_ChildSpawner_RegenPeriod(inst, 1, TUNING.BEEBOX_ENABLED)
     inst:WatchWorldState("iswinter", Start)

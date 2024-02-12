@@ -9,7 +9,7 @@ local function onburnt(inst)
 end
 
 AddPrefabPostInit("log", function(inst)
-    if inst.components.burnable then
+    if inst.components.burnable ~= nil then
         inst.components.burnable:SetOnBurntFn(onburnt)
     end
 end)

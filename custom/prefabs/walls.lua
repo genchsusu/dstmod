@@ -32,10 +32,12 @@ local function ModifyWallPrefab(inst)
     end
 
     -- 无法被瞬间摧毁
-    local old_Destroy = inst.components.workable.Destroy
-    function inst.components.workable:Destroy(destroyer)
-        if destroyer.components.playercontroller == nil then return end
-        return old_Destroy(self,destroyer)
+    if inst.components.workable ~= nil then
+        local old_Destroy = inst.components.workable.Destroy
+        function inst.components.workable:Destroy(destroyer)
+            if destroyer.components.playercontroller == nil then return end
+            return old_Destroy(self,destroyer)
+        end
     end
 
    -- 添加光源和理智光环

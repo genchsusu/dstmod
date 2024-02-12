@@ -1,5 +1,3 @@
-local _G = GLOBAL
-local TheNet = _G.TheNet
 if not (TheNet and TheNet:GetIsServer()) then return end
 
 local welcome_tips_time = 30

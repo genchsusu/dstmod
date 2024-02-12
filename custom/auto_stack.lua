@@ -1,6 +1,3 @@
-local TheSim = GLOBAL.TheSim
-local TheNet = GLOBAL.TheNet
-
 if not (TheNet:GetIsServer() or TheNet:IsDedicated()) then
     return
 end

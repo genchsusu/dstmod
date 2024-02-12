@@ -17,7 +17,9 @@ end, "shadowmaxwell")
 -- 修改砍树
 local function ModifyChopAction(prefab)
     AddPrefabPostInit(prefab, function(inst)
-        inst.components.tool:SetAction(GLOBAL.ACTIONS.CHOP, 15)
+        if inst.components.tool ~= nil then
+            inst.components.tool:SetAction(GLOBAL.ACTIONS.CHOP, 15)
+        end
     end)
 end
 
@@ -37,7 +39,9 @@ end
 -- 修改挖矿
 local function ModifyMineAction(prefab)
     AddPrefabPostInit(prefab, function(inst)
-        inst.components.tool:SetAction(GLOBAL.ACTIONS.MINE, 15)
+        if inst.components.tool ~= nil then
+            inst.components.tool:SetAction(GLOBAL.ACTIONS.MINE, 15)
+        end
     end)
 end
 
@@ -56,7 +60,9 @@ end
 -- 修改锤HAMMER
 local function ModifyHammerAction(prefab)
     AddPrefabPostInit(prefab, function(inst)
-        inst.components.tool:SetAction(GLOBAL.ACTIONS.HAMMER, 15)
+        if inst.components.tool ~= nil then
+            inst.components.tool:SetAction(GLOBAL.ACTIONS.HAMMER, 15)
+        end
     end)
 end
 
@@ -72,7 +78,7 @@ end
 
 -- 淡水钓鱼
 local function QuickFishing(inst)
-    if inst.components.fishingrod then
+    if inst.components.fishingrod ~= nil then
         local fishingrod_time = GetModConfigData("fishingrod_time") or 0
         inst.components.fishingrod:SetWaitTimes(fishingrod_time, fishingrod_time)
     end

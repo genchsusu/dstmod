@@ -67,20 +67,28 @@ local function NoBoatLeak(inst, data)
 end
 
 AddPrefabPostInit("boat", function(inst)
-    inst.components.health:SetAbsorptionAmount(1)
+    if inst.components.health ~= nil then
+        inst.components.health:SetAbsorptionAmount(1)
+    end
     inst:ListenForEvent("spawnnewboatleak", NoBoatLeak)
-    inst.components.hullhealth.leakproof = true
+    if inst.components.hullhealth ~= nil then
+        inst.components.hullhealth.leakproof = true
+    end
     inst:DoPeriodicTask(10, createFish)
 end)
 
 AddPrefabPostInit("boat_grass", function(inst)
-    inst.components.health:SetAbsorptionAmount(1)
+    if inst.components.health ~= nil then
+        inst.components.health:SetAbsorptionAmount(1)
+    end
     inst:ListenForEvent("spawnnewboatleak", NoBoatLeak)
     inst:DoPeriodicTask(10, createFish)
 end)
 
 AddPrefabPostInit("boat_pirate", function(inst)
-    inst.components.health:SetMaxHealth(1)
+    if inst.components.health ~= nil then
+        inst.components.health:SetMaxHealth(1)
+    end
 end)
 
 local items = {"mast", "mast_malbatross", "oar", "oar_driftwood", "anchor", "steeringwheel", "boat_rotator"}

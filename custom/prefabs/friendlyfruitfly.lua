@@ -3,7 +3,7 @@ AddPrefabPostInit("friendlyfruitfly", function(inst)
 	inst:RemoveComponent("freezable")
 	inst:RemoveComponent("burnable")
 	
-	if inst.components.health then
+	if inst.components.health ~= nil then
 		inst.components.health:SetMaxHealth(1000)
 		inst.components.health:StartRegen(1000, 1)
 	end

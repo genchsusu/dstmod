@@ -1,12 +1,14 @@
 -------------------------------------------------------------------------
 -- Rocks never disappear
 local function ModifyRockPrefab(inst)
-    local old_onwork = inst.components.workable.onwork
-    inst.components.workable.onwork = function(inst, worker, workleft, ...)
-        inst.components.workable.workleft = 10
-        inst.doNotRemoveOnWorkDone = true
-        if old_onwork then
-            old_onwork(inst, worker, workleft, ...)
+    if inst.components.workable ~= nil then
+        local old_onwork = inst.components.workable.onwork
+        inst.components.workable.onwork = function(inst, worker, workleft, ...)
+            inst.components.workable.workleft = 10
+            inst.doNotRemoveOnWorkDone = true
+            if old_onwork then
+                old_onwork(inst, worker, workleft, ...)
+            end
         end
     end
 end

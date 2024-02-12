@@ -14,25 +14,28 @@ local function ModifyPrefab(inst, product)
         inst.components.pickable:SetUp(product, TUNING.TOTAL_DAY_TIME*0.5, 10)
     end
 
-    local old_dig_up = inst.components.workable.onfinish
-    inst.components.workable.onfinish = function(inst, worker, ...)
-        old_dig_up(inst, worker, ...)
-        inst.components.lootdropper:SetLoot({"dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab})
-        local pt = inst:GetPosition()
-        inst.components.lootdropper:DropLoot(pt)
-        
+    if inst.components.workable ~= nil then
+        local old_dig_up = inst.components.workable.onfinish
+        inst.components.workable.onfinish = function(inst, worker, ...)
+            old_dig_up(inst, worker, ...)
+            inst.components.lootdropper:SetLoot({"dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab})
+            local pt = inst:GetPosition()
+            inst.components.lootdropper:DropLoot(pt)
+        end
     end
 
-    local old_ontransplantfn = inst.components.pickable.ontransplantfn
-    inst.components.pickable.ontransplantfn = function(inst, ...)
-        old_ontransplantfn(inst, ...)
-        inst.components.pickable:MakeEmpty()
-    end
-
-    local old_onpickedfn = inst.components.pickable.onpickedfn
-    inst.components.pickable.onpickedfn = function(inst, picker, ...)
-        inst.components.pickable.cycles_left = 20
-        old_onpickedfn(inst, picker, ...)
+    if inst.components.pickable ~= nil then
+        local old_ontransplantfn = inst.components.pickable.ontransplantfn
+        inst.components.pickable.ontransplantfn = function(inst, ...)
+            old_ontransplantfn(inst, ...)
+            inst.components.pickable:MakeEmpty()
+        end
+    
+        local old_onpickedfn = inst.components.pickable.onpickedfn
+        inst.components.pickable.onpickedfn = function(inst, picker, ...)
+            inst.components.pickable.cycles_left = 20
+            old_onpickedfn(inst, picker, ...)
+        end
     end
 end
 
@@ -45,11 +48,15 @@ end
 ---
 
 AddPrefabPostInit("reeds", function(inst)
-    inst.components.pickable.quickpick = true
-    inst.components.pickable:SetUp("cutreeds", TUNING.REEDS_REGROW_TIME, 10)
+    if inst.components.pickable ~= nil then
+        inst.components.pickable.quickpick = true
+        inst.components.pickable:SetUp("cutreeds", TUNING.REEDS_REGROW_TIME, 10)
+    end
     
     local function dig_up(inst, chopper)
-        inst.components.lootdropper:SpawnLootPrefab("cutreeds")
+        if inst.components.lootdropper ~= nil then
+            inst.components.lootdropper:SpawnLootPrefab("cutreeds")
+        end
         inst:Remove()
     end
     inst:AddComponent("workable")

@@ -3,7 +3,7 @@ local function TogglePickable(pickable, iswinter)
 end
 
 local function MakeNoGrowInWinter(inst)
-    if inst.components.pickable then
+    if inst.components.pickable ~= nil then
         inst.components.pickable:WatchWorldState("iswinter", TogglePickable)
         TogglePickable(inst.components.pickable, GLOBAL.TheWorld.state.iswinter)
     end
