@@ -2,10 +2,6 @@
 modimport("scripts/waffles")
 
 Assets = {
-    Asset("IMAGE", "images/archor.tex"),
-	Asset("ATLAS", "images/archor.xml"),
-    Asset("IMAGE", "images/mast.tex"),
-	Asset("ATLAS", "images/mast.xml"),
     Asset("ANIM", "anim/ui_chest_5x16.zip"),
     Asset("ANIM", "anim/ui_chest_8x20.zip"),
     Asset("ATLAS", "images/sack27.xml"),
@@ -13,21 +9,6 @@ Assets = {
 
 PrefabFiles = {
 }
-
-GLOBAL.Mod = {
-    env = getfenv(1),
-    -- config = {
-    --     anchor_speed = GetModConfigData('anchor_speed'),
-    --     power_rudder = GetModConfigData('power_rudder'),
-    --     power_mast = GetModConfigData('power_mast'),
-    --     power_anchor = GetModConfigData('power_anchor'),
-    --     create_fish = GetModConfigData('create_fish'),
-    --     no_boat_leak = GetModConfigData('no_boat_leak'),
-    -- },
-}
-
-import = kleiloadlua(MODROOT .. "scripts/import.lua")()
-import("ui")
 
 modimport("custom/tuning")
 modimport("custom/recipes")                         -- 修改配方

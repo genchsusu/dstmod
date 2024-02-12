@@ -3,7 +3,7 @@ local function e_or_z(en, zh)
 end
 name = "Gin's Mod"
 author = "OpenSource"
-version = "1.0.5"
+version = "1.0.7"
 
 description = [[
 个人mod合集:
