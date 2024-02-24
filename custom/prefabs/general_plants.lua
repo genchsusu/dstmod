@@ -16,25 +16,31 @@ local function ModifyPrefab(inst, product)
 
     if inst.components.workable ~= nil then
         local old_dig_up = inst.components.workable.onfinish
-        inst.components.workable.onfinish = function(inst, worker, ...)
-            old_dig_up(inst, worker, ...)
-            inst.components.lootdropper:SetLoot({"dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab})
-            local pt = inst:GetPosition()
-            inst.components.lootdropper:DropLoot(pt)
+        if old_dig_up ~= nil then
+            inst.components.workable.onfinish = function(inst, worker, ...)
+                old_dig_up(inst, worker, ...)
+                inst.components.lootdropper:SetLoot({"dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab, "dug_"..inst.prefab})
+                local pt = inst:GetPosition()
+                inst.components.lootdropper:DropLoot(pt)
+            end
         end
     end
 
     if inst.components.pickable ~= nil then
         local old_ontransplantfn = inst.components.pickable.ontransplantfn
-        inst.components.pickable.ontransplantfn = function(inst, ...)
-            old_ontransplantfn(inst, ...)
-            inst.components.pickable:MakeEmpty()
+        if old_ontransplantfn ~= nil then
+            inst.components.pickable.ontransplantfn = function(inst, ...)
+                old_ontransplantfn(inst, ...)
+                inst.components.pickable:MakeEmpty()
+            end
         end
-    
+
         local old_onpickedfn = inst.components.pickable.onpickedfn
-        inst.components.pickable.onpickedfn = function(inst, picker, ...)
-            inst.components.pickable.cycles_left = 20
-            old_onpickedfn(inst, picker, ...)
+        if old_onpickedfn ~= nil then
+            inst.components.pickable.onpickedfn = function(inst, picker, ...)
+                inst.components.pickable.cycles_left = 20
+                old_onpickedfn(inst, picker, ...)
+            end
         end
     end
 end

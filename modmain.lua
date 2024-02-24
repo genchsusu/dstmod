@@ -22,7 +22,6 @@ if GetModConfigData('enable_animal_product') then
     modimport("custom/prefabs/animal_product")          -- 鸡生蛋, 兔子掉毛,
 end
 modimport("custom/prefabs/pond")                    -- 池塘长曼德拉草
-modimport("custom/prefabs/soil_amender")            -- soil_amender可堆叠
 modimport("custom/prefabs/walls")                   -- 无敌城墙
 modimport("custom/prefabs/firesuppressor")          -- 强化灭火器
 modimport("custom/prefabs/all_season_farm_plant")   -- 四季时蔬
@@ -45,62 +44,16 @@ modimport("custom/components/firedetector")         -- 灭火器不检测营火
 modimport("custom/components/nosnow")               -- No Snow Covered
 modimport("custom/components/respawn")              -- 死亡不掉落 复活无敌15秒
 modimport("custom/components/absolute_guard")       -- 绝对防护
-modimport("custom/prefabs/stack_ui_fix")            -- 修复堆叠UI Bug
+modimport("custom/prefabs/more_stack_size")         -- 更多堆叠，修复堆叠UI显示Bug
+modimport("custom/prefabs/more_stack_item")         -- 更多可堆叠
 
 modimport("custom/resurrect")                       -- 打字复活
 modimport("custom/auto_stack")                      -- 自动堆叠
-
+modimport("custom/auto_clean")                      -- 自动清理
 modimport("custom/prefabs/mermking")                -- 修改鱼人国王
-
 modimport("custom/show_fish")                       -- 海吊杆显示鱼群信息
 modimport("custom/brains/brains")                   -- 修改生物行为
+modimport("custom/unlock")                          -- 解锁全图鉴 解锁全技能
 
 -- modimport("custom/prefabs/")       -- 修改
 
--- 解锁全图鉴
-AddPlayerPostInit(
-  function(inst)
-    inst:DoTaskInTime(
-      0,
-      function()
-        if inst == ThePlayer then
-			TheScrapbookPartitions:DebugUnlockEverything()
-
-            -- 移除特定物品
-            local itemsToRemove = { "boatfragment03", "boatfragment04", "boatfragment05", "spoiled_food" }
-            for _, itemName in ipairs(itemsToRemove) do
-                local items = TheSim:FindEntities(0, 0, 0, 10000, { itemName })
-                for i, item in ipairs(items) do
-                item:Remove()
-                end
-            end
-          end
-        end
-    )
-  end
-)
-
-local skilltreedefs = require "prefabs/skilltree_defs"
-AddPlayerPostInit(function(inst)
-	local skills = skilltreedefs.SKILLTREE_DEFS[inst.prefab]
-	local updater = inst.components.skilltreeupdater
-	if skills and updater then
-		updater.IsActivated = function(self, skill)
-			return skills[skill]
-		end
-		updater.HasSkillTag = function()
-			return true
-		end
-		local activated = updater.skilltree.activatedskills[inst.prefab] or {}
-		for skill, data in pairs(skills) do
-			if not data.lock_open and not activated[skill] then
-				if GLOBAL.TheNet:GetIsServer() then
-					updater:ActivateSkill_Server(skill)
-				end
-				if inst == GLOBAL.ThePlayer then
-					updater:ActivateSkill_Client(skill)
-				end
-			end
-		end
-	end
-end)

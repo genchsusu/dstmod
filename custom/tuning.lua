@@ -10,11 +10,6 @@ local wilson_attack = TUNING.SPEAR_DAMAGE
 local wilson_health = TUNING.WILSON_HEALTH
 
 local tuning = {
-    STACK_SIZE_LARGEITEM = 999,
-    STACK_SIZE_MEDITEM = 999,
-    STACK_SIZE_SMALLITEM = 999,
-    STACK_SIZE_TINYITEM = 999,
-
     --大树干和普通树干遮阴范围
     SHADE_CANOPY_RANGE_SMALL = 80,
     SHADE_CANOPY_RANGE = 100,

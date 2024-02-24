@@ -3,12 +3,12 @@ if not (TheNet and TheNet:GetIsServer()) then return end
 local welcome_tips_time = 30
 local resurrect_from = "Gin"
 local MY_STRINGS_EN = {
-    welcome_msg = "\nEnter #resurrect after press Y(Say) or U(Whisper):\nYou will get a new life.",
+    welcome_msg = "\nEnter #resurrect after press Y(Say) or U(Whisper):\nYou will get a new life.\n Enter #clean_world to clean the world.",
     resurrect = "#resurrect",
 }
 
 local MY_STRINGS_CN = {
-    welcome_msg = "\n按Y(说话)或U(密语)输入: #复活 \n你将获得新的生命。",
+    welcome_msg = "\n按Y(说话)或U(密语)输入: #复活 \n你将获得新的生命。\n输入#clean_world 可以清理世界。",
     resurrect = "#复活",
 }
 

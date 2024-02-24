@@ -16,17 +16,17 @@ end
 
 local function DoModification(prefab)
     AddPrefabPostInit(prefab, function(inst)
+        -- Remove stress
+        if always_oversized then
+            if inst.components.farmplantstress ~= nil then
+                inst.components.farmplantstress.stressors = {}
+                inst.components.farmplantstress.stressors_testfns = {}
+                inst.components.farmplantstress.stressor_fns = {}
+            end
+        end
         -- QuickGrow and replant
         if inst.components.growable and inst.components.growable.stages then
             local stages = deepcopy(inst.components.growable.stages)
-
-            if enable_quick_grow then
-                for _, v in pairs(stages) do
-                    if v.name and State[v.name] then
-                        v.time = function(inst) return 0 end
-                    end
-                end
-            end 
 
             -- Replant
             if enable_replant then
@@ -50,51 +50,31 @@ local function DoModification(prefab)
                     debug.setupvalue(MakePickableFunc, index, OnPicked)
                 end  
             end
-
-            -- growth
-            local old_grow_fn = stages[6].fn
-            local PlayStageAnimFunc, _ = Waffles.FindUpvalue(stages[6].fn, "PlayStageAnim")
-            stages[6].fn = function(...)
-                old_grow_fn(...)
-                inst:RemoveTag("farm_plant_killjoy")
-                inst:RemoveTag("pickable_harvest_str")
-                -- Replace rotten with full anim
-                if PlayStageAnimFunc then
-                    PlayStageAnimFunc(inst, inst.is_oversized and "oversized" or "full")
-                end
-            end
+            -- -- growth
+            -- local old_grow_fn = stages[6].fn
+            -- local PlayStageAnimFunc, _ = Waffles.FindUpvalue(stages[6].fn, "PlayStageAnim")
+            -- stages[6].fn = function(...)
+            --     old_grow_fn(...)
+            --     inst:RemoveTag("farm_plant_killjoy")
+            --     inst:RemoveTag("pickable_harvest_str")
+            --     -- Replace rotten with full anim
+            --     if PlayStageAnimFunc then
+            --         PlayStageAnimFunc(inst, inst.is_oversized and "oversized" or "full")
+            --     end
+            -- end
+            -- Keep the plant from dying
+            stages[5].time = function(inst) return 480000 end
 
             inst.components.growable.stages = stages
             inst.force_oversized = true
             inst.components.growable:StartGrowing()
-            inst.components.growable:Pause()
-        end
 
-        -- dig_up
-        if inst.components.workable then
-            local old_onfinish = inst.components.workable.onfinish
-            inst.components.workable.onfinish = function(...)
-                SpawnPrefab("farm_soil").Transform:SetPosition(inst.Transform:GetWorldPosition())
-                old_onfinish(...)
-            end
-        end
-
-        -- burnt
-        if inst.components.burnable then
-            local old_onburnt = inst.components.burnable.onburnt
-            inst.components.burnable:SetOnBurntFn(function(...)
-                SpawnPrefab("farm_soil").Transform:SetPosition(inst.Transform:GetWorldPosition())
-                old_onburnt(...)
-            end)
-        end
-
-        -- Remove stress
-        if always_oversized then
-            if inst.components.farmplantstress ~= nil then
-                inst.components.farmplantstress.stressors = {}
-                inst.components.farmplantstress.stressors_testfns = {}
-                inst.components.farmplantstress.stressor_fns = {}
-            end
+            -- Rapid growth
+            if enable_quick_grow then
+                while inst.components.growable:GetStage() < 5 do
+                    inst.components.growable:DoGrowth()
+                end
+            end 
         end
     end)
 end
@@ -122,24 +102,6 @@ for _, v in pairs(WEED_DEFS) do
                         SpawnAt("farm_soil",inst:GetPosition())
                     end
                     inst:Remove()
-                end)
-            end
-
-            -- dig_up
-            if inst.components.workable then
-                local old_onfinish = inst.components.workable.onfinish
-                inst.components.workable.onfinish = function(...)
-                    SpawnPrefab("farm_soil").Transform:SetPosition(inst.Transform:GetWorldPosition())
-                    old_onfinish(...)
-                end
-            end
-
-            -- burnt
-            if inst.components.burnable then
-                local old_onburnt = inst.components.burnable.onburnt
-                inst.components.burnable:SetOnBurntFn(function(...)
-                    SpawnPrefab("farm_soil").Transform:SetPosition(inst.Transform:GetWorldPosition())
-                    old_onburnt(...)
                 end)
             end
         end)
