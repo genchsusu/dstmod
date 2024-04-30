@@ -46,6 +46,7 @@ modimport("custom/components/respawn")              -- 死亡不掉落 复活无
 modimport("custom/components/absolute_guard")       -- 绝对防护
 modimport("custom/prefabs/more_stack_size")         -- 更多堆叠，修复堆叠UI显示Bug
 modimport("custom/prefabs/more_stack_item")         -- 更多可堆叠
+modimport("custom/prefabs/twiggy.lua")              -- 多枝书变小树苗
 
 modimport("custom/resurrect")                       -- 打字复活
 modimport("custom/auto_stack")                      -- 自动堆叠
