@@ -61,8 +61,8 @@ local function ModifyBeeboxPrefab(inst)
     if inst.components.harvestable ~= nil then
         inst.components.harvestable:SetUp("honey", 999, nil, onharvest, updatelevel)
     end
-    GLOBAL.WorldSettings_ChildSpawner_SpawnPeriod(inst, 1, TUNING.BEEBOX_ENABLED)
-    GLOBAL.WorldSettings_ChildSpawner_RegenPeriod(inst, 1, TUNING.BEEBOX_ENABLED)
+    -- GLOBAL.WorldSettings_ChildSpawner_SpawnPeriod(inst, 1, TUNING.BEEBOX_ENABLED)
+    -- GLOBAL.WorldSettings_ChildSpawner_RegenPeriod(inst, 1, TUNING.BEEBOX_ENABLED)
     inst:WatchWorldState("iswinter", Start)
     inst:WatchWorldState("iscaveday", Start)
     inst:ListenForEvent("enterlight", Start)
