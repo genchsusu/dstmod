@@ -3,7 +3,7 @@ local function e_or_z(en, zh)
 end
 name = "Gin's Mod"
 author = "OpenSource"
-version = "1.0.11"
+version = "1.0.12"
 
 description = [[
 个人mod合集:
@@ -118,7 +118,7 @@ configuration_options = {
 		hover = e_or_z("Set the fishingrod time", "设置淡水钓鱼时间"),
 		options =
 		{
-            { description = e_or_z("Immediately", "瞬间"), data = 0 },
+            { description = e_or_z("Immediately", "瞬间"), data = 0.3 },
             { description = "3s", data = 3 },
             { description = "6s", data = 6 },
 		},
