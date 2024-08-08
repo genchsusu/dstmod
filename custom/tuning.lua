@@ -11,8 +11,8 @@ local wilson_health = TUNING.WILSON_HEALTH
 
 local tuning = {
     --大树干和普通树干遮阴范围
-    SHADE_CANOPY_RANGE_SMALL = 80,
-    SHADE_CANOPY_RANGE = 100,
+    -- SHADE_CANOPY_RANGE_SMALL = 80, -- 移除特效太难看
+    -- SHADE_CANOPY_RANGE = 100,      -- 移除特效太难看
 
     -- 复活
     PORTAL_HEALTH_PENALTY = 1,
@@ -235,153 +235,6 @@ local tuning = {
         VERY_DEEP = 4,
     },
     
-    BOAT =
-    {
-        HEALTH = 200,
-        -- MAX_HULL_HEALTH_DAMAGE = 70,
-        MAX_HULL_HEALTH_DAMAGE = 0,
-        MASS = 500,
-        RADIUS = 4,
-
-        -- WAKE_TEST_TIME = 2,
-        WAKE_TEST_TIME = 0.5,
-
-        -- MAX_FORCE_VELOCITY = 3.5,
-        MAX_FORCE_VELOCITY = 5,
-        MAX_ALLOWED_VELOCITY = 10,
-
-        BASE_DRAG = 0.2,
-        MAX_DRAG = 1.5,
-        BASE_DAMPENING = 0,
-        MAX_DAMPENING = 1,
-        MAX_VELOCITY = 1.2,
-        MAX_VELOCITY_MOD = 1,
-        PUSH_BACK_VELOCITY = 1.75,
-        SCARY_MINSPEED_SQR = 1,
-        SCARY_MINSPEED = 1,
-        -- Gin Ship turning speed
-        -- RUDDER_TURN_SPEED = 0.6,
-        RUDDER_TURN_SPEED = 15,
-        NO_BUILD_BORDER_RADIUS = -0.2,
-        FIRE_DAMAGE = 5,
-        BOATPHYSICS_COLLISION_TIME_BUFFER = 4 * FRAMES, --now unused.
-
-        GRASS_BOAT = {
-            RADIUS = 3,
-        },
-
-        GRASSBOAT_LEAK_DAMAGE = {
-            small_leak = 15,
-            med_leak = 30,
-        },
-
-        OARS =
-        {
-            BASIC =
-            {
-                FORCE = 0.3,
-                DAMAGE = wilson_attack*.5,
-                ROW_FAIL_WEAR = 25,
-                ATTACKWEAR = 25,
-                USES = 500,
-                MAX_VELOCITY = 10,
-            },
-
-            DRIFTWOOD =
-            {
-                FORCE = 0.5,
-                DAMAGE = wilson_attack*.5,
-                ROW_FAIL_WEAR = 25,
-                ATTACKWEAR = 25,
-                -- USES = 400,
-                USES = 99999,
-                -- MAX_VELOCITY = 3.5,
-                MAX_VELOCITY = 10,
-            },
-
-            MALBATROSS =
-            {
-                FORCE = 0.8,
-                DAMAGE = wilson_attack*.8,
-                ROW_FAIL_WEAR = 6,
-                ATTACKWEAR = 6,
-                USES = 1500,
-                MAX_VELOCITY = 5,
-            },
-
-            MONKEY =
-            {
-                FORCE = 0.6,
-                DAMAGE = wilson_attack*1.5,
-                ROW_FAIL_WEAR = 25,
-                ATTACKWEAR = 5,
-                USES = 500,
-                MAX_VELOCITY = 3,
-            },
-        },
-
-        ANCHOR =
-        {
-            BASIC =
-            {
-                MAX_VELOCITY_MOD = 0.15,
-                ANCHOR_DRAG = 5,
-                SAILFORCEDRAG = 0.8,
-            },
-        },
-
-        MAST =
-        {
-            BASIC =
-            {
-                MAX_VELOCITY = 25,
-                SAIL_FORCE = 10,
-                RUDDER_TURN_DRAG = 0.23,
-            },
-
-            MALBATROSS =
-            {
-                MAX_VELOCITY = 20,
-                SAIL_FORCE = 10,
-                RUDDER_TURN_DRAG = 0.23,
-            },
-
-            HEAVABLE_ACTIVE_FRAME = 8,
-            HEAVABLE_START_FRAME = 12,
-        },
-
-        BUMPERS =
-        {
-            KELP =
-            {
-                -- HEALTH = 20,
-                HEALTH = 2000,
-            },
-
-            SHELL =
-            {
-                -- HEALTH = 40,
-                HEALTH = 9999,
-            },
-        },
-
-        BOATCANNON =
-        {
-            RANGE = 20,
-            PROJECTILE_INITIAL_HEIGHT = 1.1,
-            AIM_ANGLE_WIDTH = 90 / RADIANS, -- must be in radians
-        },
-
-        BOAT_MAGNET =
-        {
-            PAIR_RADIUS = 24, -- Radius distance to look for beacons to pair with
-            MAX_DISTANCE = 48, -- Lose connection with the beacon when beyond this distance from the center of the boat to the beacon
-            CATCH_UP_SPEED = 0.5, -- Extra velocity given to the magnet's boat in order to catch up with the beacon
-
-            MAGNET_FORCE = 0.6,
-            MAX_VELOCITY = 2.5,
-        },
-    },
     WATERPLANT =
     {
         DAMAGE = wilson_attack * 2,
@@ -448,10 +301,41 @@ local tuning = {
     },
 }
 
+local function merge_tables(t1, t2)
+    for k, v in pairs(t2) do
+        if type(v) == "table" and type(t1[k]) == "table" then
+            merge_tables(t1[k], v)
+        else
+            t1[k] = v
+        end
+    end
+end
+
 for key, value in pairs(tuning) do
     if TUNING[key] then
         print("OVERRIDE: " .. key .. " in TUNING")
     end
 
-    TUNING[key] = value
+    if type(TUNING[key]) == "table" and type(value) == "table" then
+        -- Merge the tables
+        merge_tables(TUNING[key], value)
+    else
+        -- Directly override
+        TUNING[key] = value
+    end
 end
+
+TUNING.BOAT.BUMPERS.KELP.HEALTH = 2000
+TUNING.BOAT.BUMPERS.SHELL.HEALTH = 4000
+TUNING.BOAT.MAX_HULL_HEALTH_DAMAGE = 0
+TUNING.BOAT.WAKE_TEST_TIME = 0.5
+TUNING.BOAT.MAX_FORCE_VELOCITY = 5
+TUNING.BOAT.RUDDER_TURN_SPEED = 15
+TUNING.BOAT.OARS.BASIC.MAX_VELOCITY = 10
+TUNING.BOAT.OARS.DRIFTWOOD.USES = 99999
+TUNING.BOAT.OARS.DRIFTWOOD.MAX_VELOCITY = 10
+TUNING.BOAT.ANCHOR.BASIC.ANCHOR_DRAG = 5
+TUNING.BOAT.MAST.BASIC.MAX_VELOCITY = 25
+TUNING.BOAT.MAST.BASIC.SAIL_FORCE = 10
+TUNING.BOAT.MAST.MALBATROSS.MAX_VELOCITY = 25
+TUNING.BOAT.MAST.MALBATROSS.SAIL_FORCE = 10

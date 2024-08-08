@@ -77,9 +77,15 @@ local function ModifyBackpack(inst)
     
         local old_onequip = inst.components.equippable.onequipfn
         inst.components.equippable:SetOnEquip(function(inst, owner)
-            old_onequip(inst, owner)
+            if old_onequip then
+                old_onequip(inst, owner)
+            end
+
             if backpacks_light_range then inst.Light:Enable(true) end
-            owner.components.health:StartRegen(2, 1)
+
+            if owner.components.health ~= nil then
+                owner.components.health:StartRegen(2, 1)
+            end
     
             if backpacks_plus_function then
                 if owner and owner.components.temperature then
@@ -101,8 +107,13 @@ local function ModifyBackpack(inst)
     
         local old_onunequip = inst.components.equippable.onunequipfn
         inst.components.equippable:SetOnUnequip(function(inst, owner)
-            old_onunequip(inst, owner)
-            owner.components.health:StopRegen()
+            if old_onunequip then
+                old_onunequip(inst, owner)
+            end
+
+            if owner.components.health ~= nil then
+                owner.components.health:StopRegen()
+            end
     
             if inst.periodTask then
                 inst.periodTask:Cancel()
